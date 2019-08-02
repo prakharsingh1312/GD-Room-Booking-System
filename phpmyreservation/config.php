@@ -4,8 +4,8 @@
 
 // mysqli details
 define('global_mysqli_server', 'localhost');
-define('global_mysqli_user', 'root');
-define('global_mysqli_password', '');
+define('global_mysqli_user', 'booking');
+define('global_mysqli_password', 'Hello@123@Booking');
 define('global_mysqli_database', 'phpmyreservation');
 
 // Salt for password encryption. Changing it is recommended. Use 9 random characters
@@ -16,10 +16,10 @@ define('global_salt', 'k4i8pa2m5');
 define('global_remember_login_days', '180');
 
 // Title. Used in page title and header
-define('global_title', 'Tennis court reservation');
+define('global_title', 'GD Room Reservation');
 
 // Organization. Used in page title and header, and as sender name in reservation reminder emails
-define('global_organization', 'Local tennis club');
+define('global_organization', 'Nava Nalanda Central Library');
 
 // Secret code. Can be used to only allow certain people to create a user
 // Set to '0' to disable
@@ -42,11 +42,11 @@ define('global_reservation_reminders_email', 'some@email.address');
 define('global_reservation_reminders_code', '1234');
 
 // Full URL to web site. Used in reservation reminder emails
-define('global_url', 'http://your.server/phpmyreservation/');
+define('global_url', 'http://146.148.48.62/roombook/phpmyreservation/');
 
 // Currency (short format). Price per reservation can be changed in the control panel
 // Currency should not be changed after reservations have been made (of obvious reasons)
-define('global_currency', '€');
+define('global_currency', '₹');
 
 // How many weeks forward in time to allow reservations
 define('global_weeks_forward', '2');
