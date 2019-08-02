@@ -314,7 +314,7 @@ function make_reservation($week, $day, $time)
 
 	if($week == '0' && $day == '0' && $time == '0')
 	{
-		mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_reservations_table . " (reservation_made_time,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name) VALUES (now(),'$week','$day','$time','$price','$user_id','$user_email','$user_name')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_reservations_table . " (reservation_made_time,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name,reservation_room_id) VALUES (now(),'$week','$day','$time','$price','$user_id','$user_email','$user_name',".count_rooms.")")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 		return(1);
 	}
