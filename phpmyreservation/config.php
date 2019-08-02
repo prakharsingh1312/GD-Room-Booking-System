@@ -5,7 +5,7 @@
 // mysqli details
 define('global_mysqli_server', 'localhost');
 define('global_mysqli_user', 'booking');
-define('global_mysqli_password', 'Hello@123@Booking');
+define('global_mysqli_password', 'Hello@123#Booking');
 define('global_mysqli_database', 'phpmyreservation');
 
 // Salt for password encryption. Changing it is recommended. Use 9 random characters
