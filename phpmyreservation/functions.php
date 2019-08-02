@@ -462,6 +462,7 @@ global $dbconfig;
 
 function save_system_configuration($price)
 {
+	global $dbconfig;
 	if(validate_price($price) != true)
 	{
 		return('<span class="error_span">Price must be a number (use . and not , if you want to use decimals)</span>');
