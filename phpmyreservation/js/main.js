@@ -324,8 +324,8 @@ function toggle_reservation_time(id, week, day, time, from)
 	}
 
 	var user_name = $(id).html();
-
-	if(user_name == '')
+	var book_confirm=confirm('Proceed to book this slot?');
+	if(user_name.indexOf('Rooms Left:')>-1 && book_confirm==true)
 	{
 		$(id).html('Wait...'); 
 
@@ -333,7 +333,7 @@ function toggle_reservation_time(id, week, day, time, from)
 		{
 			if(data == 1)
 			{
-				setTimeout(function() { read_reservation(id, week, day, time); }, 1000);
+				location.reload(true);
 			}
 			else
 			{
@@ -358,7 +358,7 @@ function toggle_reservation_time(id, week, day, time, from)
 				}
 				else
 				{
-					var delete_confirm = true;
+					var delete_confirm = confirm('Are you sure you want to cancel this booking?');
 				}
 
 				if(delete_confirm)
@@ -952,3 +952,29 @@ $(document).ready( function()
 {
 	$.ajaxSetup({ cache: false });
 });
+$(document).on('click','.deleteBookingButton',function()
+			   {
+	var array = this.id.split(':');
+	
+		delete_booking(array[1], array[2], array[3], array[0]);
+});
+function delete_booking(week,day,time,id){
+				var delete_confirm = confirm('Are you sure you want to cancel this booking?');
+				
+
+				if(delete_confirm)
+				{
+					$.post('reservation.php?delete_reservation', { week: week, day: day, time: time ,id:id}, function(data)
+					{
+						if(data == 1)
+						{
+							location.reload(true);
+						}
+						else
+						{
+							notify(data, 4);
+							setTimeout(function() { read_reservation(id, week, day, time); }, 2000);
+						}
+					});
+				}
+}

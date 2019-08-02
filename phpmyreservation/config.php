@@ -4,10 +4,10 @@
 
 // mysqli details
 define('global_mysqli_server', 'localhost');
-define('global_mysqli_user', 'booking');
-define('global_mysqli_password', 'Hello@123#Booking');
+define('global_mysqli_user', 'root');
+define('global_mysqli_password', '');
 define('global_mysqli_database', 'phpmyreservation');
-
+define('global_mysqli_room_details_table','phpmyreservation_roomdetails');
 // Salt for password encryption. Changing it is recommended. Use 9 random characters
 // This MUST be 9 characters, and must NOT be changed after users have been created
 define('global_salt', 'k4i8pa2m5');
@@ -53,5 +53,6 @@ define('global_weeks_forward', '2');
 
 // Possible reservation times. Use the same syntax as below (TimeFrom-TimeTo)
 $global_times = array('09-10', '10-11', '11-12', '12-13', '13-14', '14-15', '15-16', '16-17', '17-18', '18-19', '19-20', '20-21');
+//Room Details Table
 
 ?>

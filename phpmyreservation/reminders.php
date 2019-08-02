@@ -6,7 +6,7 @@ if(global_reservation_reminders == '1')
 {
 	if(php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR']) || isset($_GET['code']) && $_GET['code'] == global_reservation_reminders_code)
 	{
-		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_reservation_reminder='1'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_reservation_reminder='1'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 		while($user = mysqli_fetch_array($query))
 		{
@@ -14,7 +14,7 @@ if(global_reservation_reminders == '1')
 			$day_number = global_day_number;
 			$user_id = $user['user_id'];
 
-			$query2 = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id' AND reservation_week='$week_number' AND reservation_day='$day_number' ORDER BY reservation_time")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+			$query2 = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id' AND reservation_week='$week_number' AND reservation_day='$day_number' ORDER BY reservation_time")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 			if(mysqli_num_rows($query2) > 0)
 			{

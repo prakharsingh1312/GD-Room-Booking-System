@@ -16,7 +16,8 @@ elseif(isset($_GET['delete_reservation']))
 	$week = mysqli_real_escape_string($dbconfig,$_POST['week']);
 	$day = mysqli_real_escape_string($dbconfig,$_POST['day']);
 	$time = mysqli_real_escape_string($dbconfig,$_POST['time']);
-	echo delete_reservation($week, $day, $time);
+	$id = mysqli_real_escape_string($dbconfig,$_POST['id']);
+	echo delete_reservation($week, $day, $time,$id);
 }
 elseif(isset($_GET['read_reservation']))
 {
@@ -31,6 +32,10 @@ elseif(isset($_GET['read_reservation_details']))
 	$day = mysqli_real_escape_string($dbconfig,$_POST['day']);
 	$time = mysqli_real_escape_string($dbconfig,$_POST['time']);
 	echo read_reservation_details($week, $day, $time);
+}
+elseif(check_reservation()==1){
+	echo slot_booked();
+	
 }
 elseif(isset($_GET['week']))
 {

@@ -1,11 +1,14 @@
 <?php
 include_once('config.php');
 // Configuration
-$dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+$dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_room_details_table)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+$count=mysqli_num_rows($query);
+define('count_rooms',$count);
 function get_configuration($data)
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_configuration_table)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_configuration_table)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$configuration = mysqli_fetch_array($query);
 	return($configuration[$data]);
 }
@@ -84,7 +87,7 @@ function validate_price($price)
 function user_name_exists($user_name)
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_name='$user_name'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_name='$user_name'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	if(mysqli_num_rows($query) > 0)
 	{
@@ -95,8 +98,8 @@ function user_name_exists($user_name)
 function user_email_exists($user_email)
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_email='$user_email'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
-$dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_email='$user_email'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+$dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	if(mysqli_num_rows($query) > 0)
 	{
 		return(true);
@@ -123,7 +126,7 @@ function login($user_email, $user_password, $user_remember)
 	$user_password_encrypted = encrypt_password($user_password);
 	$user_password = add_salt($user_password);
 	
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_email='$user_email' AND user_password='$user_password_encrypted' OR user_email='$user_email' AND user_password='$user_password'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_email='$user_email' AND user_password='$user_password_encrypted' OR user_email='$user_email' AND user_password='$user_password'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	if(mysqli_num_rows($query) == 1)
 	{
@@ -155,7 +158,7 @@ function check_login()
 	{
 		$user_id = $_SESSION['user_id'];
 	global $dbconfig;
-		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 		if(mysqli_num_rows($query) == 1)
 		{
@@ -210,7 +213,7 @@ function create_user($user_name, $user_email, $user_password, $user_secret_code)
 	}
 	else
 	{
-		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . "")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . "")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 		if(mysqli_num_rows($query) == 0)
 		{
@@ -223,7 +226,7 @@ function create_user($user_name, $user_email, $user_password, $user_secret_code)
 
 		$user_password = encrypt_password($user_password);
 
-		mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_users_table . " (user_is_admin,user_email,user_password,user_name,user_reservation_reminder) VALUES ($user_is_admin,'$user_email','$user_password','$user_name','0')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_users_table . " (user_is_admin,user_email,user_password,user_name,user_reservation_reminder) VALUES ($user_is_admin,'$user_email','$user_password','$user_name','0')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 		$user_password = strip_salt($user_password);
 
@@ -237,12 +240,12 @@ function create_user($user_name, $user_email, $user_password, $user_secret_code)
 function list_admin_users()
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_is_admin='1' ORDER BY user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_is_admin='1' ORDER BY user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	if(mysqli_num_rows($query) < 1)
 	{
 		return('<span class="error_span">There are no admins</span>');
-	$dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');}
+	$dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');}
 	else
 	{
 		$return = '<table id="forgot_password_table"><tr><th>Name</th><th>Email</th></tr>';
@@ -274,14 +277,18 @@ function highlight_day($day)
 function read_reservation($week, $day, $time)
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
-	$reservation = mysqli_fetch_array($query);
-	return($reservation['reservation_user_name']);
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$reservation = mysqli_num_rows($query);
+	$count=count_rooms-$reservation;
+	if(count_rooms<=$reservation)
+		return('<b>All rooms Booked<b>');
+	else
+		return ('<b>Rooms Left:'.$count.'</b>');
 }
 
 function read_reservation_details($week, $day, $time)
 {global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$reservation = mysqli_fetch_array($query);
 
 	if(empty($reservation))
@@ -294,7 +301,9 @@ function read_reservation_details($week, $day, $time)
 		return('<b>Reservation made:</b> ' . $reservation['reservation_made_time'] . '<br><b>User\'s email:</b> ' . $reservation['reservation_user_email']);
 	}
 }
-
+function list_rooms($week,$day,$time){
+		global $dbconfig;
+}
 function make_reservation($week, $day, $time)
 {
 	global $dbconfig;
@@ -319,13 +328,13 @@ function make_reservation($week, $day, $time)
 	}
 	else
 	{
-		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
-		if(mysqli_num_rows($query) < 1)
+		if(mysqli_num_rows($query) < count_rooms)
 		{
 			$year = global_year;
 
-			mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_reservations_table . " (reservation_made_time,reservation_year,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name) VALUES (now(),'$year','$week','$day','$time','$price','$user_id','$user_email','$user_name')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+			mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_reservations_table . " (reservation_made_time,reservation_year,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name) VALUES (now(),'$year','$week','$day','$time','$price','$user_id','$user_email','$user_name')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 			return(1);
 		}
@@ -336,7 +345,7 @@ function make_reservation($week, $day, $time)
 	}
 }
 
-function delete_reservation($week, $day, $time)
+function delete_reservation($week, $day, $time,$id)
 {
 	global $dbconfig;
 	if($week < global_week_number && $_SESSION['user_is_admin'] != '1' || $week == global_week_number && $day < global_day_number && $_SESSION['user_is_admin'] != '1')
@@ -349,12 +358,13 @@ function delete_reservation($week, $day, $time)
 	}
 	else
 	{
-		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time' AND reservation_id=$id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time' AND reservation_id=$id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		$user = mysqli_fetch_array($query);
 
 		if($user['reservation_user_id'] == $_SESSION['user_id'] || $_SESSION['user_is_admin'] == '1')
 		{
-			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_week='$week' AND reservation_day='$day' AND reservation_time='$time' AND reservation_id=$id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 			return(1);
 		}
@@ -370,7 +380,7 @@ function delete_reservation($week, $day, $time)
 function list_users()
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " ORDER BY user_is_admin DESC, user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " ORDER BY user_is_admin DESC, user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	$users = '<table id="users_table"><tr><th>ID</th><th>Admin</th><th>Name</th><th>Email</th><th>Reminders</th><th>Usage</th><th>Cost</th><th></th></tr>';
 
@@ -389,7 +399,7 @@ function reset_user_password($user_id)
 	$password = random_password();
 	$password_encrypted = encrypt_password($password);
 	global $dbconfig;
-	mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_password='$password_encrypted' WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_password='$password_encrypted' WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	if($user_id == $_SESSION['user_id'])
 	{
@@ -409,7 +419,7 @@ function change_user_permissions($user_id)
 	}
 	else
 	{
-		mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_is_admin = 1 - user_is_admin WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_is_admin = 1 - user_is_admin WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 		return(1);
 	}
@@ -426,12 +436,12 @@ function delete_user_data($user_id, $data)
 	{
 		if($data == 'reservations')
 		{
-			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		}
 		elseif($data == 'user')
 		{
-			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_users_table . " WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
-			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_users_table . " WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		}
 
 		return(1);
@@ -444,17 +454,17 @@ function delete_all($data)
 global $dbconfig;
 	if($data == 'reservations')
 	{
-		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id!='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id!='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	}
 	elseif($data == 'users')
 	{
-		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_users_table . " WHERE user_id!='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
-		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id!='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_users_table . " WHERE user_id!='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id!='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	}
 	elseif($data == 'everything')
 	{
-		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_users_table . "")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
-		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . "")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_users_table . "")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . "")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	}
 
 	return(1);
@@ -469,7 +479,7 @@ function save_system_configuration($price)
 	}
 	else
 	{
-		mysqli_query($dbconfig,"UPDATE " . global_mysqli_configuration_table . " SET price='$price'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		mysqli_query($dbconfig,"UPDATE " . global_mysqli_configuration_table . " SET price='$price'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	}
 
 	return(1);
@@ -486,14 +496,14 @@ function get_usage()
 function count_reservations($user_id)
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$count = mysqli_num_rows($query);
 	return($count);
 }
 
 function cost_reservations($user_id)
 {global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_reservations_table . " WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	$cost = 0;
 
@@ -509,7 +519,7 @@ function get_reservation_reminders()
 {
 	global $dbconfig;
 	$user_id = $_SESSION['user_id'];
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$user = mysqli_fetch_array($query);
 
 	if($user['user_reservation_reminder'] == 1)
@@ -528,7 +538,7 @@ function toggle_reservation_reminder()
 {
 	global $dbconfig;
 	$user_id = $_SESSION['user_id'];
-	mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_reservation_reminder = 1 - user_reservation_reminder WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+	mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_reservation_reminder = 1 - user_reservation_reminder WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	return(1);
 }
@@ -561,16 +571,16 @@ function change_user_details($user_name, $user_email, $user_password)
 	{
 		if(empty($user_password))
 		{
-			mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_name='$user_name', user_email='$user_email' WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+			mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_name='$user_name', user_email='$user_email' WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		}
 		else
 		{
 			$user_password = encrypt_password($user_password);
 
-			mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_name='$user_name', user_email='$user_email', user_password='$user_password' WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+			mysqli_query($dbconfig,"UPDATE " . global_mysqli_users_table . " SET user_name='$user_name', user_email='$user_email', user_password='$user_password' WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		}
 
-		mysqli_query($dbconfig,"UPDATE " . global_mysqli_reservations_table . " SET reservation_user_name='$user_name', reservation_user_email='$user_email' WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error()) . '</span>');
+		mysqli_query($dbconfig,"UPDATE " . global_mysqli_reservations_table . " SET reservation_user_name='$user_name', reservation_user_email='$user_email' WHERE reservation_user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 		$_SESSION['user_name'] = $user_name;
 		$_SESSION['user_email'] = $user_email;
@@ -583,5 +593,19 @@ function change_user_details($user_name, $user_email, $user_password)
 		return(1);
 	}
 }
-
+function check_reservation(){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table ." WHERE reservation_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$num=mysqli_num_rows($query);
+	if($num>0)
+		return 1;
+	else
+		return 0;
+}
+function slot_booked(){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table ." WHERE reservation_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$num=mysqli_fetch_array($query);
+	return '<center>Slot Booked<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center>';
+}
 ?>
