@@ -281,9 +281,9 @@ function read_reservation($week, $day, $time)
 	$reservation = mysqli_num_rows($query);
 	$count=count_rooms-$reservation;
 	if(count_rooms<=$reservation)
-		return('<b id="roomAvailability'.$week.$date.$time.'">All rooms Booked<b>');
+		return('<b id="roomAvailability'.$week.$day.$time.'">All rooms Booked<b>');
 	else
-		return ('<b id="roomAvailability'.$week.$date.$time.'">Rooms Left:'.$count.'</b>');
+		return ('<b id="roomAvailability'.$week.$day.$time.'">Rooms Left:'.$count.'</b>');
 }
 
 function read_reservation_details($week, $day, $time)
