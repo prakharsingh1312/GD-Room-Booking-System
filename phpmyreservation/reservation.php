@@ -9,7 +9,8 @@ if(isset($_GET['make_reservation']))
 	$week = mysqli_real_escape_string($dbconfig,$_POST['week']);
 	$day = mysqli_real_escape_string($dbconfig,$_POST['day']);
 	$time = mysqli_real_escape_string($dbconfig,$_POST['time']);
-	echo make_reservation($week, $day, $time);
+	$room_id=mysqli_real_escape_string($dbconfig,$_POST['room_id']);
+	echo make_reservation($week, $day, $time,$room_id);
 }
 elseif(isset($_GET['delete_reservation']))
 {
@@ -36,6 +37,13 @@ elseif(isset($_GET['read_reservation_details']))
 elseif(check_reservation()==1){
 	echo slot_booked();
 	
+}
+elseif(isset($_GET['book']))
+{
+	$week=mysqli_real_escape_string($dbconfig,$_POST['week']);
+	$day=mysqli_real_escape_string($dbconfig,$_POST['day']);
+	$time=mysqli_real_escape_string($dbconfig,$_POST['time']);
+	echo get_room_details($week,$day,$time);
 }
 elseif(isset($_GET['week']))
 {

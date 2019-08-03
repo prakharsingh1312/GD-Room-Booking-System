@@ -1,5 +1,11 @@
 // Show pages
-
+function showrooms(week,day,time)
+{
+	page_load('book');
+	div_hide('#content_div');
+$.post('reservation.php?book',{week:week,day:day,time:time}, function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded('book'); });
+	
+}
 function showabout()
 {
 	page_load();
@@ -309,7 +315,7 @@ function create_user()
 
 // Reservation
 
-function toggle_reservation_time(id, week, day, time, from)
+function toggle_reservation_time(id, week, day, time, room_id)
 {
 	if(session_user_is_admin == '1')
 	{
@@ -325,11 +331,11 @@ function toggle_reservation_time(id, week, day, time, from)
 
 	var user_name = $(id).html();
 	var book_confirm=confirm('Proceed to book this slot?');
-	if(user_name.indexOf('Rooms Left:')>-1 && book_confirm==true)
+	if(book_confirm==true)
 	{
 		$(id).html('Wait...'); 
 
-		$.post('reservation.php?make_reservation', { week: week, day: day, time: time }, function(data) 
+		$.post('reservation.php?make_reservation', { week: week, day: day, time: time,room_id:room_id }, function(data) 
 		{
 			if(data == 1)
 			{
@@ -858,7 +864,8 @@ $(document).ready( function()
 	$(document).on('click', '.reservation_time_cell_div', function()
 	{
 		var array = this.id.split(':');
-		toggle_reservation_time(this, array[1], array[2], array[3], array[0]);
+		showrooms(array[1],array[2],array[3]);
+		
 	});
 
 	$(document).on('mousemove', '.reservation_time_cell_div', function()
@@ -869,6 +876,11 @@ $(document).ready( function()
 
 	// Mouse pointer
 	$(document).on('mouseover', 'input:button, input:submit, .reservation_time_div', function() { this.style.cursor = 'pointer'; });
+	$(document).on('click','.roomBookButton',function(){
+		var array = this.id.split(':');
+		toggle_reservation_time(this,array[1],array[2],array[3],array[0])
+		
+	})
 });
 
 // Hash change
@@ -956,7 +968,8 @@ $(document).on('click','.deleteBookingButton',function()
 			   {
 	var array = this.id.split(':');
 	
-		delete_booking(array[1], array[2], array[3], array[0]);
+		delete_booking(array[1], array[2
+									  ], array[3], array[0]);
 });
 function delete_booking(week,day,time,id){
 				var delete_confirm = confirm('Are you sure you want to cancel this booking?');

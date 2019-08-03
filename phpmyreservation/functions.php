@@ -136,7 +136,7 @@ function login($user_email, $user_password, $user_remember)
 			$_SESSION['user_is_admin'] = $user['user_is_admin'];
 			$_SESSION['user_email'] = $user['user_email'];
 			$_SESSION['user_name'] = $user['user_name'];
-			$_SESSION['user_reservation_reminder'] = $user['user_reservation_reminder'];
+			$_SESSION['user_reminder'] = $user['user_reservation_reminder'];
 			$_SESSION['logged_in'] = '1';
 
 			if($user_remember == '1')
@@ -304,7 +304,7 @@ function read_reservation_details($week, $day, $time)
 function list_rooms($week,$day,$time){
 		global $dbconfig;
 }
-function make_reservation($week, $day, $time)
+function make_reservation($week, $day, $time,$room_id)
 {
 	global $dbconfig;
 	$user_id = $_SESSION['user_id'];
@@ -334,7 +334,7 @@ function make_reservation($week, $day, $time)
 		{
 			$year = global_year;
 
-			mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_reservations_table . " (reservation_made_time,reservation_year,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name,reservation_room_id) VALUES (now(),'$year','$week','$day','$time','$price','$user_id','$user_email','$user_name',".count_rooms.")")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+			mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_reservations_table . " (reservation_made_time,reservation_year,reservation_week,reservation_day,reservation_time,reservation_price,reservation_user_id,reservation_user_email,reservation_user_name,reservation_room_id) VALUES (now(),'$year','$week','$day','$time','$price','$user_id','$user_email','$user_name','$room_id'".")")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 			return(1);
 		}
@@ -607,5 +607,16 @@ function slot_booked(){
 	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table ." WHERE reservation_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$num=mysqli_fetch_array($query);
 	return '<center>Slot Booked<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center>';
+}
+function get_room_details($week,$day,$time){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_room_details_table." WHERE room_id NOT IN (SELECT room_id FROM ".global_mysqli_room_details_table.",".global_mysqli_reservations_table." WHERE room_id=reservation_room_id AND reservation_week='$week' and reservation_time='$time' and reservation_day='$day')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$return="<center><br><br>Rooms Available from ".$time." on ".date("d-m-Y",strtotime(global_year."-W".$week."-".$day))."<br><br>";
+	while($room=mysqli_fetch_array($query))
+	{
+		if($room['STATUS']=='Y')
+		$return=$return.'<input type="button" class="blue_button roomBookButton" id="'.$room['room_id'].':'.$week.':'.$day.':'.$time.'" value="'.$room['room_name'].'">&nbsp;&nbsp;&nbsp;';
+	}
+	return $return;
 }
 ?>
