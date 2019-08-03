@@ -863,9 +863,9 @@ $(document).ready( function()
 
 	$(document).on('click', '.reservation_time_cell_div', function()
 	{
-		var text=$('#roomAvailability').html();
-		if(text.indexOf("Rooms Left:")!=-1){
 		var array = this.id.split(':');
+		var text=$('#roomAvailability'+array[1]+array[2]+array[3]).html();
+		if(text.indexOf("Rooms Left:")!=-1){
 		showrooms(array[1],array[2],array[3]);
 		}
 		else
