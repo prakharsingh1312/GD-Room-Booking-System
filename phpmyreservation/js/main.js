@@ -869,7 +869,7 @@ $(document).ready( function()
 		showrooms(array[1],array[2],array[3]);
 		}
 		else
-			notify('All rooms for this date are booked.');
+			notify('All rooms for this date are booked.',4);
 		
 	});
 
