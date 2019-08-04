@@ -53,6 +53,18 @@ elseif(isset($_GET['change_user_details']))
 	$user_password = mysqli_real_escape_string($dbconfig,$_POST['user_password']);
 	echo change_user_details($user_name, $user_email, $user_password);
 }
+elseif(isset($_GET['list_reservations'])&&$_SESSION['user_is_admin']==1)
+{
+	 echo list_reservations();
+}
+elseif($_SESSION['user_is_admin'] == '1' && isset($_GET['delete_user_reservation']))
+{
+	$week=mysqli_real_escape_string($dbconfig,$_POST['week']);
+	$day=mysqli_real_escape_string($dbconfig,$_POST['day']);
+	$time=mysqli_real_escape_string($dbconfig,$_POST['time']);
+	$reservation_id=mysqli_real_escape_string($dbconfig,$_POST['reservation_id']);
+	echo delete_reservation($week,$day,$time,$room_id);
+}
 else
 {
 	echo '<div class="box_div" id="cp_div"><div class="box_top_div"><a href="#">Start</a> &gt; Control panel</div><div class="box_body_div">';
@@ -92,8 +104,9 @@ else
 
 		<input type="submit" class="blue_button small_button" value="Save configuration">
 -->
+<div id="system_configuration_form">
 <?php echo list_reservations() ?>
-		</p> 
+		</div> 
 
 		<p id="system_configuration_message_p"></p>
 

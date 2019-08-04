@@ -630,7 +630,7 @@ function list_reservations()
 	while($user = mysqli_fetch_array($query))
 	{
 		$time="Time:".$user['reservation_time']."<br>".date("d-M-Y", strtotime($user['reservation_year']."W".$user['reservation_week']."-".$user['reservation_day']));
-		$users .= '<tr id="user_tr_' . $user['user_id'] . '"><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_id'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_name'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_email'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="button" class="small_button delete_user_reservations_button" id="delete_user_reservations_button:"'.$user['reservation_id'].' value="Delete Reservation"></td></tr>';
+		$users .= '<tr id="user_tr_' . $user['user_id'] . '"><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_id'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_name'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_email'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="button" class="small_button delete_user_reservations_button" id="delete_user_reservations_button:'.$user['reservation_week'].":".$user['reservation_day'].":".$user['reservation_time'].":".$user['reservation_id'].'" value="Delete Reservation"></td></tr>';
 	}
 
 	$users .= '</table>';

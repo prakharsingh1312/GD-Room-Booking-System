@@ -72,7 +72,10 @@ elseif(isset($_GET['week']))
 		{
 			$i++;
 
-			echo '<td><div class="reservation_time_div"><div class="reservation_time_cell_div" id="div:' . $week . ':' . $i . ':' . $time . '" onclick="void(0)">' . read_reservation($week, $i, $time) . '</div></div></td>';
+			echo '<td><div class="reservation_time_div"';
+			if($_SESSION['user_is_admin']!=1 && strtotime('now')>=strtotime(global_year."W".$week."-".$i))
+				echo'style="pointer-events:none;opacity:.5;"';
+			echo'><div class="reservation_time_cell_div" id="div:' . $week . ':' . $i . ':' . $time . '" onclick="void(0)">' . read_reservation($week, $i, $time) . '</div></div></td>';
 		}
 
 		echo '</tr>';

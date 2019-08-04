@@ -473,6 +473,10 @@ function list_users()
 {
 	$.get('cp.php?list_users', function(data) { $('#users_div').html(data); });
 }
+function list_reservations()
+{
+	$.get('cp.php?list_reservations',function(data){$('#system_configuration_form').html(data);});
+}
 
 function reset_user_password()
 {
@@ -837,7 +841,9 @@ $(document).ready( function()
 	$(document).on('click', '#reservation_today_button', function() { showweek(global_week_number, 'today'); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
 	$(document).on('click', '#change_user_permissions_button', function() { change_user_permissions(); });
-	$(document).on('click', '#delete_user_reservations_button', function() { delete_user_data('reservations'); });
+	$(document).on('click', '.delete_user_reservations_button', function() { 
+		var array = this.id.split(':');
+		delete_user_reservation(array[1],array[2],array[3],array[4])});
 	$(document).on('click', '#delete_user_button', function() { delete_user_data('user'); });
 	$(document).on('click', '#delete_all_reservations_button', function() { delete_all('reservations'); });
 	$(document).on('click', '#delete_all_users_button', function() { delete_all('users'); });
@@ -995,4 +1001,33 @@ function delete_booking(week,day,time,id){
 						}
 					});
 				}
+}
+function delete_user_reservation(week,day,time,id)
+{
+	var delete_confirm=confirm('Are you sure?');
+	if(delete_confirm)
+		{
+	$.post('reservation.php?delete_reservation',{week:week,day:day,time:time,id:id},function(data)
+			{
+				
+				if(data == 1)
+				{
+					
+					$('#system_configuration_message_p').html('<img src="img/loading.gif" alt="Loading"> Deleting...').slideDown('fast');
+					
+					setTimeout(function()
+					{
+						$('#system_configuration_message_p').slideUp('fast', function()
+						{
+						list_reservations();
+							
+						});
+					}, 1000);
+				}
+				else
+				{
+					$('#user_administration_message_p').html(data);
+				}
+			})
+		}
 }
