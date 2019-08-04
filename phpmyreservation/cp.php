@@ -66,7 +66,7 @@ else
 
 		<div id="users_div"><?php echo list_users(); ?></div>
 
-		<p class="center_p"><input type="button" class="small_button blue_button" id="reset_user_password_button" value="Reset password"> <input type="button" class="small_button blue_button" id="change_user_permissions_button" value="Change permissions"> <input type="button" class="small_button" id="delete_user_reservations_button" value="Delete reservations"> <input type="button" class="small_button" id="delete_user_button" value="Delete user"></p>
+		<p class="center_p"><input type="button" class="small_button blue_button" id="reset_user_password_button" value="Reset password"> <input type="button" class="small_button blue_button" id="change_user_permissions_button" value="Change permissions"><input type="button" class="small_button" id="delete_user_button" value="Delete user"></p>
 		<p class="center_p" id="user_administration_message_p"></p>
 
 		<hr>
@@ -81,17 +81,19 @@ else
 
 		<hr>
 
-		<h3>System configuration</h3>
+		<h3>Reservations List</h3>
 
+<!--
 		<p class="smalltext_p">Changing the price will not affect previous reservations.</p>
 
 		<form action="." id="system_configuration_form"><p>
 
-		<input type="text" id="price_input" value="<?php echo get_configuration('price'); ?>"> <label for="price_input">Price per reservation, in <?php echo global_currency; ?></label><br><br>
+		<input type="text" id="price_input" value="<?php //echo get_configuration('price'); ?>"> <label for="price_input">Price per reservation, in <?php //echo global_currency; ?></label><br><br>
 
 		<input type="submit" class="blue_button small_button" value="Save configuration">
-
-		</p></form>
+-->
+<?php echo list_reservations() ?>
+		</p> 
 
 		<p id="system_configuration_message_p"></p>
 

@@ -382,11 +382,11 @@ function list_users()
 	global $dbconfig;
 	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " ORDER BY user_is_admin DESC, user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
-	$users = '<table id="users_table"><tr><th>ID</th><th>Admin</th><th>Name</th><th>Email</th><th>Reminders</th><th>Usage</th><th>Cost</th><th></th></tr>';
+	$users = '<table id="users_table"><tr><th>ID</th><th>Admin</th><th>Name</th><th>Email</th><th>Reminders</th><th></th></tr>';
 
 	while($user = mysqli_fetch_array($query))
 	{
-		$users .= '<tr id="user_tr_' . $user['user_id'] . '"><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_id'] . '</label></td><td>' . $user['user_is_admin'] . '</td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_name'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_email'] . '</label></td><td>' . $user['user_reservation_reminder'] . '</td><td>' . count_reservations($user['user_id']) . '</td><td>' . cost_reservations($user['user_id']) . ' ' . global_currency . '</td><td><input type="radio" name="user_radio" class="user_radio" id="user_radio_' . $user['user_id'] . '" value="' . $user['user_id'] . '"></td></tr>';
+		$users .= '<tr id="user_tr_' . $user['user_id'] . '"><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_id'] . '</label></td><td>' . $user['user_is_admin'] . '</td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_name'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_email'] . '</label></td><td>' . $user['user_reservation_reminder'] . '</td>	<td><input type="radio" name="user_radio" class="user_radio" id="user_radio_' . $user['user_id'] . '" value="' . $user['user_id'] . '"></td></tr>';
 	}
 
 	$users .= '</table>';
@@ -413,6 +413,7 @@ function reset_user_password($user_id)
 
 function change_user_permissions($user_id)
 {
+	global $dbconfig;
 	if($user_id == $_SESSION['user_id'])
 	{
 		return('<span class="error_span">Sorry, you can\'t use your superuser powers to remove them</span>');
@@ -618,5 +619,22 @@ function get_room_details($week,$day,$time){
 		$return=$return.'<input type="button" class="blue_button roomBookButton" id="'.$room['room_id'].':'.$week.':'.$day.':'.$time.'" value="'.$room['room_name'].'">&nbsp;&nbsp;&nbsp;';
 	}
 	return $return;
+}
+function list_reservations()
+{
+	global $dbconfig;
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . ",".global_mysqli_reservations_table.",".global_mysqli_room_details_table." WHERE user_id=reservation_user_id AND reservation_room_id=room_id ORDER BY reservation_year DESC,reservation_week DESC,reservation_time DESC,reservation_room_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+
+	$users = '<table id="users_table"><tr><th>ID</th><th>Name</th><th>Email</th><th>Reservation</th><th>Room</th><th></th></tr>';
+
+	while($user = mysqli_fetch_array($query))
+	{
+		$time="Time:".$user['reservation_time']."<br>".date("d-M-Y", strtotime($user['reservation_year']."W".$user['reservation_week']."-".$user['reservation_day']));
+		$users .= '<tr id="user_tr_' . $user['user_id'] . '"><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_id'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_name'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_email'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="button" class="small_button delete_user_reservations_button" id="delete_user_reservations_button:"'.$user['reservation_id'].' value="Delete Reservation"></td></tr>';
+	}
+
+	$users .= '</table>';
+
+	return($users);
 }
 ?>
