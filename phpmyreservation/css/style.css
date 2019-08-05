@@ -353,13 +353,13 @@ input
 	font-size: 12px;
 }
 
-input[type=text], input[type=password]
+input[type=text], input[type=password], select
 {
 	width: 200px;
 	padding: 4px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	-webkit-appearance: none;
+/*	-webkit-appearance: none;*/
 }
 
 input[type=button], input[type=submit]

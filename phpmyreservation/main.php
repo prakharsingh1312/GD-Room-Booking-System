@@ -20,6 +20,7 @@ mysqli_set_charset($dbconfig,'utf8');
 define('global_mysqli_configuration_table', 'phpmyreservation_configuration');
 define('global_mysqli_users_table', 'phpmyreservation_users');
 define('global_mysqli_reservations_table', 'phpmyreservation_reservations');
+define('global_mysqli_branches_table','phpmyreservation_branches');
 
 // Cookies
 

@@ -99,7 +99,25 @@ function user_email_exists($user_email)
 {
 	global $dbconfig;
 	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_email='$user_email'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
-$dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+
+	if(mysqli_num_rows($query) > 0)
+	{
+		return(true);
+	}
+}
+function user_roll_no_exists($user_roll_no)
+{
+	global $dbconfig;
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_roll_no='$user_roll_no'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	if(mysqli_num_rows($query) > 0)
+	{
+		return(true);
+	}
+}
+function user_mobile_no_exists($user_mobile_no)
+{
+	global $dbconfig;
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_mobile_no='$user_mobile_no'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	if(mysqli_num_rows($query) > 0)
 	{
 		return(true);
@@ -126,7 +144,7 @@ function login($user_email, $user_password, $user_remember)
 	$user_password_encrypted = encrypt_password($user_password);
 	$user_password = add_salt($user_password);
 	
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_email='$user_email' AND user_password='$user_password_encrypted' OR user_email='$user_email' AND user_password='$user_password'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE (user_email='$user_email' AND user_password='$user_password_encrypted'AND user_activated=1) OR( user_email='$user_email' AND user_password='$user_password'AND user_activated=1)")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	if(mysqli_num_rows($query) == 1)
 	{
@@ -184,7 +202,7 @@ function logout()
 	setcookie(global_cookie_prefix . '_user_password', '', time() - 3600);
 }
 
-function create_user($user_name, $user_email, $user_password, $user_secret_code)
+function create_user($user_name, $user_email, $user_password, $user_secret_code,$user_branch,$user_mobile_no,$user_roll_no)
 {
 	global $dbconfig;
 	if(validate_user_name($user_name) != true)
@@ -211,6 +229,14 @@ function create_user($user_name, $user_email, $user_password, $user_secret_code)
 	{
 		return('<span class="error_span">Email is already registered. <a href="#forgot_password">Forgot your password?</a></span>');
 	}
+	elseif(user_roll_no_exists($user_roll_no) == true)
+	{
+		return('<span class="error_span">Roll No. is already registered. <a href="#forgot_password">Forgot your password?</a></span>');
+	}
+	elseif(user_mobile_no_exists($user_mobile_no) == true)
+	{
+		return('<span class="error_span">Mobile No. is already registered. <a href="#forgot_password">Forgot your password?</a></span>');
+	}
 	else
 	{
 		$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . "")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
@@ -225,9 +251,24 @@ function create_user($user_name, $user_email, $user_password, $user_secret_code)
 		}
 
 		$user_password = encrypt_password($user_password);
+		$user_hash=md5(rand(0,100000)."pineapples");
+		$token=md5($user_email);
+		$query=mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_users_table . " (user_is_admin,user_email,user_password,user_name,user_reservation_reminder,user_roll_no,user_mobile_no,user_branch_id,user_hash) VALUES ($user_is_admin,'$user_email','$user_password','$user_name','0','$user_roll_no','$user_mobile_no','$user_branch','$user_hash')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		if($query)
+		{
+			$subject = 'Signup | Verification'; // Give the email a subject 
+$message = '
+ 
+Thanks for signing up!
+Your account has been created, you can login after you have verified your email address.
+ 
+Please click this link to verify you email address:
+http://146.148.48.62/login.php?token='.$token.'&hash='.$user_hash.'&verify'; // Our message above including the link
+                     
+$headers = 'From:gdroombooking@thapar.edu' . "\r\n"; // Set from headers
+mail($user_email, $subject, $message, $headers); // Send our email
 
-		mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_users_table . " (user_is_admin,user_email,user_password,user_name,user_reservation_reminder) VALUES ($user_is_admin,'$user_email','$user_password','$user_name','0')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
-
+		}
 		$user_password = strip_salt($user_password);
 
 		setcookie(global_cookie_prefix . '_user_email', $user_email, time() + 3600 * 24 * intval(global_remember_login_days));
@@ -636,5 +677,31 @@ function list_reservations()
 	$users .= '</table>';
 
 	return($users);
+}
+function list_branches_option(){
+	global $dbconfig;
+	$return="";
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_branches_table)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	while($result=mysqli_fetch_array($query))
+	{
+		if($result['STATUS']=="Y")
+		$return=$return."<option value='".$result['branch_id']."'>".$result['branch_code']."-".$result['branch_name'].'</option>';
+	}
+	return $return;
+}
+function verify_account($token,$hash)
+{
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_users_table." WHERE user_hash=$hash")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	while($result=mysqli_fetch_array($query))
+	{
+		if(md5($result['user_email'])==$token)
+		{
+			$query=mysqli_query($dbconfig,"UPDATE ".global_mysqli_users_table." SET user_hash=
+			'' and user_activated=1 WHERE user_email='{$result['user_email']}'");
+			return 1;
+		}
+	}
+	return 0;
 }
 ?>

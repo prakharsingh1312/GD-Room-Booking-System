@@ -246,7 +246,7 @@ function login()
 		{
 			if(data == '')
 			{
-				$('#login_message_p').html('<span class="error_span">Wrong email and/or password</span>');
+				$('#login_message_p').html('<span class="error_span">Wrong email and/or password or Email not verified.</span>');
 				$('#user_email_input').val('');
 				$('#user_password_input').val('');
 				input_focus('#user_email_input');
@@ -271,7 +271,10 @@ function create_user()
 	var user_email = $('#user_email_input').val();
 	var user_password = $('#user_password_input').val();
 	var user_password_confirm = $('#user_password_confirm_input').val();
-
+	var user_roll_no=$('#user_roll_no_input').val();
+	var user_branch=$('#user_branch_input').val();
+	var user_mobile_no=$('#user_mobile_no_input').val();
+	var regexPattern=new RegExp(/^[0-9-+]+$/);
 	if($('#user_secret_code_input').length)
 	{
 		var user_secret_code =  $('#user_secret_code_input').val();
@@ -288,15 +291,50 @@ function create_user()
 		$('#user_password_confirm_input').val('');
 		input_focus('#user_password_input');
 	}
+	else if(user_email.indexOf('@thapar.edu') ==-1)
+	{
+		$('#new_user_message_p').html('<span class="error_span">Please use a thapar.edu mail.</span>').slideDown('fast');
+		$('#user_email_input').val('');
+		
+		input_focus('#user_email_input');
+	}
+	else if(!regexPattern.test(user_mobile_no))
+	{
+		$('#new_user_message_p').html('<span class="error_span">Mobile No. should contain numbers only.</span>').slideDown('fast');
+		$('#user_mobile_no_input').val('');
+		
+		input_focus('#user_mobile_no_input');
+	}
+	else if(user_mobile_no.length!=10)
+	{
+		$('#new_user_message_p').html('<span class="error_span">Mobile No. should have 10 digits.</span>').slideDown('fast');
+		$('#user_mobile_no_input').val('');
+		
+		input_focus('#user_mobile_no_input');
+	}
+	else if(user_roll_no.length!=9)
+	{
+		$('#new_user_message_p').html('<span class="error_span">Roll No. should have 9 digits.</span>').slideDown('fast');
+		$('#user_roll_no_input').val('');
+		
+		input_focus('#user_roll_no_input');
+	}
+	else if(!regexPattern.test(user_roll_no))
+	{
+		$('#new_user_message_p').html('<span class="error_span">Roll No. should contain numbers only.</span>').slideDown('fast');
+		$('#user_roll_no_input').val('');
+		
+		input_focus('#user_roll_no_input');
+	}
 	else
 	{
 		$('#new_user_message_p').html('<img src="img/loading.gif" alt="Loading"> Creating user...').slideDown('fast');
 
-		$.post('login.php?create_user', { user_name: user_name, user_email: user_email, user_password: user_password, user_secret_code: user_secret_code }, function(data)
+		$.post('login.php?create_user', { user_name: user_name, user_email: user_email, user_password: user_password, user_secret_code: user_secret_code,user_roll_no:user_roll_no,user_branch:user_branch,user_mobile_no:user_mobile_no}, function(data)
 		{
 			if(data == 1)
 			{
-				input_focus();
+				alert('Your account has been created. A verification link has been sent to your email. You need to verify your email to be able to login.');
 
 				setTimeout(function()
 				{
