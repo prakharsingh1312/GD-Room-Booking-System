@@ -260,7 +260,7 @@ function create_user($user_name, $user_email, $user_password, $user_secret_code,
 $headers = 'From:gdroombooking@thapar.edu' . "\r\n"; // Set from headers
 require_once "Mail.php";
 
-$from = 'nncl@thapar.edu';
+$from = 'prakharsingh@gmail.com';
 $to = $user_email;
 $subject = 'Signup | Verification'; // Give the email a subject
 $body = '
