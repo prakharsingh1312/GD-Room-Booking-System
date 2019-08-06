@@ -718,7 +718,7 @@ function verify_account($token,$hash)
 		if(md5($result['user_email'])==$token)
 		{
 			$query=mysqli_query($dbconfig,"UPDATE ".global_mysqli_users_table." SET user_hash=
-			'' and user_activated=1 WHERE user_email='{$result['user_email']}'");
+			'' , user_activated=1 WHERE user_id='{$result['user_id']}'");
 			return 1;
 		}
 	}
