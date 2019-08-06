@@ -9,7 +9,7 @@ if(isset($_GET['login']))
 	$user_remember = $_POST['user_remember'];
 	echo login($user_email, $user_password, $user_remember);
 }
-elseif(isset($GET['verify'])&&isset($_GET['token'])&&isset($_GET['hash']))
+elseif(isset($_GET['verify'])&&isset($_GET['token'])&&isset($_GET['hash']))
 {
 	$token=mysqli_real_escape_string($_GET['token']);
 	$hash=mysqli_real_escape_string($_GET['hash']);
