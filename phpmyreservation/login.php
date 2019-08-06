@@ -17,7 +17,7 @@ elseif(isset($_GET['verify'])&&isset($_GET['token'])&&isset($_GET['hash']))
 		echo'<script type="text/javascript">alert("Your email address has been verified you can now login.");</script>';
 	else
 		echo'<script type="text/javascript">alert("Invalid verification token.");</script>';
-	header('Refresh:0');
+	header('Location:index.php');
 }
 elseif(isset($_GET['logout']))
 {
