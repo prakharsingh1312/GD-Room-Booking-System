@@ -256,17 +256,36 @@ function create_user($user_name, $user_email, $user_password, $user_secret_code,
 		$query=mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_users_table . " (user_is_admin,user_email,user_password,user_name,user_reservation_reminder,user_roll_no,user_mobile_no,user_branch_id,user_hash) VALUES ($user_is_admin,'$user_email','$user_password','$user_name','0','$user_roll_no','$user_mobile_no','$user_branch','$user_hash')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		if($query)
 		{
-			$subject = 'Signup | Verification'; // Give the email a subject 
-$message = '
+                     
+$headers = 'From:gdroombooking@thapar.edu' . "\r\n"; // Set from headers
+require_once "Mail.php";
+
+$from = 'nncl@thapar.edu';
+$to = $user_email;
+$subject = 'Signup | Verification'; // Give the email a subject
+$body = '
  
 Thanks for signing up!
 Your account has been created, you can login after you have verified your email address.
  
 Please click this link to verify you email address:
 http://146.148.48.62/login.php?token='.$token.'&hash='.$user_hash.'&verify'; // Our message above including the link
-                     
-$headers = 'From:gdroombooking@thapar.edu' . "\r\n"; // Set from headers
-mail($user_email, $subject, $message, $headers); // Send our email
+
+$headers = array(
+    'From' => $from,
+    'To' => $to,
+    'Subject' => $subject
+);
+
+$smtp = Mail::factory('smtp', array(
+        'host' => 'ssl://smtp.gmail.com',
+        'port' => '465',
+        'auth' => true,
+        'username' => 'prakharsingh13@gmail.com',
+        'password' => 'jangipur13'
+    ));
+
+$mail = $smtp->send($to, $headers, $body);
 
 		}
 		$user_password = strip_salt($user_password);
