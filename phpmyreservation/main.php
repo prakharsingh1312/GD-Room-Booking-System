@@ -70,7 +70,7 @@ else
 {
 	define('global_css_animations', '0');
 }
-
+define('global_css_animations', '1');
 // Check stuff
 
 if(strlen(global_salt) != 9)
