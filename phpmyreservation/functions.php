@@ -269,7 +269,7 @@ Thanks for signing up!
 Your account has been created, you can login after you have verified your email address.
  
 Please click this link to verify you email address:
-http://146.148.48.62/login.php?token='.$token.'&hash='.$user_hash.'&verify'; // Our message above including the link
+http://146.148.48.62/roombook/phpmyreservation/login.php?token='.$token.'&hash='.$user_hash.'&verify'; // Our message above including the link
 
 $headers = array(
     'From' => $from,
