@@ -668,7 +668,7 @@ function slot_booked(){
 	global $dbconfig;
 	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table ." WHERE reservation_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$num=mysqli_fetch_array($query);
-	return '<center>Slot Booked<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center>';
+	return '<div class="box_top_div">Hello</div><div class="box_body_div"><center>Slot Booked<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center>';
 }
 function get_room_details($week,$day,$time){
 	global $dbconfig;
@@ -679,6 +679,7 @@ function get_room_details($week,$day,$time){
 		if($room['STATUS']=='Y')
 		$return=$return.'<input type="button" class="blue_button roomBookButton" id="'.$room['room_id'].':'.$week.':'.$day.':'.$time.'" value="'.$room['room_name'].'">&nbsp;&nbsp;&nbsp;';
 	}
+	$return=$return."</div>";
 	return $return;
 }
 function list_reservations()
