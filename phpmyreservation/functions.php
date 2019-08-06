@@ -286,7 +286,8 @@ $smtp = Mail::factory('smtp', array(
     ));
 
 $mail = $smtp->send($to, $headers, $body);
-
+if (PEAR::isError($mail)) {
+      echo("<scrpit type='text/javascript'>alert('" . $mail->getMessage() . "')</script>");
 		}
 		$user_password = strip_salt($user_password);
 
