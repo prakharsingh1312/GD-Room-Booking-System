@@ -668,18 +668,18 @@ function slot_booked(){
 	global $dbconfig;
 	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table ." WHERE reservation_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$num=mysqli_fetch_array($query);
-	return '<div class="box_top_div">Hello</div><div class="box_body_div"><center>Slot Booked<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center>';
+	return 'div class="box_div"><div class="box_top_div">Hello</div><div class="box_body_div"><center>Slot Booked<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center></div></div>';
 }
 function get_room_details($week,$day,$time){
 	global $dbconfig;
 	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_room_details_table." WHERE room_id NOT IN (SELECT room_id FROM ".global_mysqli_room_details_table.",".global_mysqli_reservations_table." WHERE room_id=reservation_room_id AND reservation_week='$week' and reservation_time='$time' and reservation_day='$day')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
-	$return="<center><br><br>Rooms Available from ".$time." on ".date("d-m-Y",strtotime(global_year."-W".$week."-".$day))."<br><br>";
+	$return="<div class='box_div' id ='room_details_div'><div class='box_top_div'><div id='room_details_top_left_div'><a href='#'>Start</a> &gt; Rooms Available</div><div id='room_details_top_center_div'>Time:".$time."</div><div id='room_details_top_right_div'>Date ".date("d-M-Y",strtotime(global_year."-W".$week."-".$day))."</div></div><div class='box_body_div'>";
 	while($room=mysqli_fetch_array($query))
 	{
 		if($room['STATUS']=='Y')
 		$return=$return.'<input type="button" class="blue_button roomBookButton" id="'.$room['room_id'].':'.$week.':'.$day.':'.$time.'" value="'.$room['room_name'].'">&nbsp;&nbsp;&nbsp;';
 	}
-	$return=$return."</div>";
+	$return=$return."</div></div>";
 	return $return;
 }
 function list_reservations()
@@ -724,5 +724,45 @@ function verify_account($token,$hash)
 		}
 	}
 	return 0;
+}
+function create_group($group_name){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." where group_name='$group_name'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	if(mysqli_num_rows($query)!=0)
+		return "Group name already taken please use another name.";
+		else{
+	$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_groups_table." (group_name,group_admin_id) VALUES ('$group_name','{$_SESSION['user_id']}')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." WHERE group_name='$group_name'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		$result=mysqli_fetch_array($query);
+	$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_group_members_table." (member_group_id,member_user_id) VALUES ({$result['group_id']},{$_SESSION['user_id']})")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	if($query)
+		return 1;
+		}
+	
+}
+function show_groups(){
+	global $dbconfig;
+	$return='<table id="group_table"><tr><th>Group ID</th><th>Group Name</th><th>Group Members</th><th></th></tr>';
+	$query=mysqli_query($dbconfig,"SELECT group_id,group_name,count(member_user_id) FROM ".global_mysqli_groups_table.",".global_mysqli_group_members_table." WHERE group_id=member_group_id and group_admin_id={$_SESSION['user_id']} group by member_group_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	while($result=mysqli_fetch_array($query)){
+		$return=$return."<tr><td>".$result['group_id']."</td><td>".$result['group_name']."</td><td>".$result['count(member_user_id)'].'</td><td><input type="radio" name="group_radio" class="group_radio" id="group_radio_' . $result['group_id'] . '" value="' . $result['group_id'] . '"></td></tr>';
+	}
+	$return=$return."</table>";
+	return $return;
+}
+function delete_group($group_id){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." WHERE group_id=$group_id AND group_admin_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	if(mysqli_num_rows($query)==1)
+	{
+		$query=mysqli_query($dbconfig,"DELETE FROM ".global_mysqli_groups_table." WHERE group_id=$group_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		$query=mysqli_query($dbconfig,"DELETE FROM ".global_mysqli_group_members_table." WHERE member_group_id=$group_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+		if($query)
+		{
+			return 1;
+		}
+	}
+	else
+		return 'You can only delete groups that you\'ve created'; 
 }
 ?>

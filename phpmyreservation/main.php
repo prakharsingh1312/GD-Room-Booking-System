@@ -21,6 +21,9 @@ define('global_mysqli_configuration_table', 'phpmyreservation_configuration');
 define('global_mysqli_users_table', 'phpmyreservation_users');
 define('global_mysqli_reservations_table', 'phpmyreservation_reservations');
 define('global_mysqli_branches_table','phpmyreservation_branches');
+define('global_mysqli_groups_table','phpmyreservation_groups');
+define('global_mysqli_group_members_table','phpmyreservation_group_members');
+define('global_mysqli_group_invitations_table','phpmyreservation_group_invitations');
 
 // Cookies
 
@@ -62,14 +65,14 @@ if(strstr(global_ua, 'iPhone') || strstr(global_ua, 'iPod') || strstr(global_ua,
 		}
 	}
 }
-elseif(strstr(global_ua, 'Chrome') || strstr(global_ua, 'Safari') && strstr(global_ua, 'Macintosh') || strstr(global_ua, 'Safari') && strstr(global_ua, 'Windows') || strstr(global_ua, 'Firefox') || strstr(global_ua, 'Opera') || strstr(global_ua, 'MSIE 10'))
-{
-	define('global_css_animations', '1');
-}
-else
-{
-	define('global_css_animations', '0');
-}
+//elseif(strstr(global_ua, 'Chrome') || strstr(global_ua, 'Safari') && strstr(global_ua, 'Macintosh') || strstr(global_ua, 'Safari') && strstr(global_ua, 'Windows') || strstr(global_ua, 'Firefox') || strstr(global_ua, 'Opera') || strstr(global_ua, 'MSIE 10'))
+//{
+//	define('global_css_animations', '1');
+//}
+//else
+//{
+//	define('global_css_animations', '0');
+//}
 define('global_css_animations', '1');
 // Check stuff
 

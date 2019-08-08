@@ -12,6 +12,14 @@ function showabout()
 	div_hide('#content_div');
 	$.get('about.php', function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded('about'); });
 }
+function showgroups()
+{
+	page_load();
+	div_hide('#group_list');
+	$.get('reservation.php?show_groups', function(data) { $('#group_list').html(data); div_fadein('#group_list'); page_loaded('reservations');
+		}
+		  );
+}
 
 function showlogin()
 {
@@ -877,6 +885,8 @@ $(document).ready( function()
 
 	// Buttons
 	$(document).on('click', '#reservation_today_button', function() { showweek(global_week_number, 'today'); });
+	$(document).on('click', '#delete_group_button', function() { delete_group(); });
+	$(document).on('click', '#group_details_button', function() { group_details(); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
 	$(document).on('click', '#change_user_permissions_button', function() { change_user_permissions(); });
 	$(document).on('click', '.delete_user_reservations_button', function() { 
@@ -886,8 +896,9 @@ $(document).ready( function()
 	$(document).on('click', '#delete_all_reservations_button', function() { delete_all('reservations'); });
 	$(document).on('click', '#delete_all_users_button', function() { delete_all('users'); });
 	$(document).on('click', '#delete_everything_button', function() { delete_all('everything'); });
-	$(document).on('click', '#add_one_reservation_button', function() { add_one_reservation(); });
-
+	$(document).on('click', '#add_one_reservation_button', function() { add_one_reservation();});
+	$(document).on('click','#create_group_button',function(){create_group();});
+	$(document).on('click','.close',function(){$('#myModal').css("display","none");})
 	// Checkboxes
 	$(document).on('click', '#reservation_reminders_checkbox', function() { toggle_reservation_reminder(); });
 
@@ -1068,4 +1079,38 @@ function delete_user_reservation(week,day,time,id)
 				}
 			})
 		}
+}
+function create_group()
+{
+	var name=$("#group_name_input").val();
+	$.post('reservation.php?create_group',{group_name:name}, function(data)
+	{
+		if(data == '1')
+		{
+			notify("Group Created Successfully.",4);
+			showgroups();
+		}
+		else
+			notify(data,4);
+	});
+}
+function delete_group(){
+	if(typeof $('.group_radio:checked').val()!= 'undefined')
+		{
+			var delete_confirm=confirm('Are you sure?');
+			if (delete_confirm){
+	var group_id=$('.group_radio:checked').val();
+			$.post('reservation.php?delete_group',{group_id:group_id},function(data){
+				if (data==1){
+				notify('Group deleted successfully',4);
+					showgroups();
+				}
+				else
+					notify(data,4);			
+			})
+		}
+		}
+	else{
+		notify('Please select a group.',4);
+	}
 }
