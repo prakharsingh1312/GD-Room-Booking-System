@@ -16,6 +16,10 @@ elseif(isset($_GET['delete_group'])){
 	$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
 	echo delete_group($group_id);
 }
+elseif(isset($_GET['group_details'])){
+	//$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
+	echo group_details(6);
+}
 elseif(isset($_GET['delete_reservation']))
 {
 	$week = mysqli_real_escape_string($dbconfig,$_POST['week']);
@@ -98,10 +102,18 @@ elseif(isset($_GET['week']))
 }
 else
 {
-	echo'<div class="box_div" id="group_div"><div class="box_top_div">Your Groups</div><div class="box_body_div"><div id="group_list">';
+	echo'<div class="box_div" id="group_div"><div class="box_top_div">Groups</div><div class="box_body_div"><div id="group_list">';
 	echo show_groups();
-	echo'</div><input type="button" class="blue_button" id="group_details_button" value="Edit Group">&nbsp;&nbsp;<input type="button" class="red_button" id="delete_group_button" value="Delete Group"><br><br><label for="group_name_input">Group Name:</label><br><input type="text" id="group_name_input" autocapitalize="off"><br><br><input type="button" class="blue_button" id="create_group_button" value="Create Group"></div></div><br><br>';
-	echo '</div><div class="box_div" id="reservation_div"><div class="box_top_div" id="reservation_top_div"><div id="reservation_top_left_div"><a href="." id="previous_week_a">&lt; Previous week</a></div><div id="reservation_top_center_div">Reservations for week <span id="week_number_span">' . global_week_number . '</span></div><div id="reservation_top_right_div"><a href="." id="next_week_a">Next week &gt;</a></div></div><div class="box_body_div"><div id="reservation_table_div"></div></div></div><div id="reservation_details_div"><div id="myModal" class="modal">
+	echo'
+	
+	</div></div></div><div class="box_div" id="invitation_div">';
+	echo show_invitations();
+	echo'
+	
+	</div>
+	<br><br>
+	
+	<div class="box_div" id="reservation_div"><div class="box_top_div" id="reservation_top_div"><div id="reservation_top_left_div"><a href="." id="previous_week_a">&lt; Previous week</a></div><div id="reservation_top_center_div">Reservations for week <span id="week_number_span">' . global_week_number . '</span></div><div id="reservation_top_right_div"><a href="." id="next_week_a">Next week &gt;</a></div></div><div class="box_body_div"><div id="reservation_table_div"></div></div></div><div id="reservation_details_div"><div id="myModal" class="modal">
 
   <!-- Modal content -->
 	

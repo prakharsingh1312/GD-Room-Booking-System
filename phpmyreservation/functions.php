@@ -734,7 +734,7 @@ function create_group($group_name){
 	$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_groups_table." (group_name,group_admin_id) VALUES ('$group_name','{$_SESSION['user_id']}')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." WHERE group_name='$group_name'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		$result=mysqli_fetch_array($query);
-	$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_group_members_table." (member_group_id,member_user_id) VALUES ({$result['group_id']},{$_SESSION['user_id']})")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_group_members_table." (member_group_id,member_user_id,member_status) VALUES ({$result['group_id']},{$_SESSION['user_id']},1)")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	if($query)
 		return 1;
 		}
@@ -747,7 +747,13 @@ function show_groups(){
 	while($result=mysqli_fetch_array($query)){
 		$return=$return."<tr><td>".$result['group_id']."</td><td>".$result['group_name']."</td><td>".$result['count(member_user_id)'].'</td><td><input type="radio" name="group_radio" class="group_radio" id="group_radio_' . $result['group_id'] . '" value="' . $result['group_id'] . '"></td></tr>';
 	}
-	$return=$return."</table>";
+	$return=$return.'</table><input type="button" class="blue_button" id="group_details_button" value="Group Details">
+	&nbsp;&nbsp;
+	<input type="button" class="red_button" id="delete_group_button" value="Delete Group">
+	<br><br>
+	<label for="group_name_input">Group Name:</label><br><input type="text" id="group_name_input" autocapitalize="off">
+	<br><br>
+	<input type="button" class="blue_button" id="create_group_button" value="Create Group">';
 	return $return;
 }
 function delete_group($group_id){
@@ -764,5 +770,44 @@ function delete_group($group_id){
 	}
 	else
 		return 'You can only delete groups that you\'ve created'; 
+}
+function show_invitations(){
+	global $dbconfig;
+	$return='<div class="box_top_div">Invitations</div><div class="box_body_div"><div id="invitation_list">';
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table.",".global_mysqli_groups_table.",".global_mysqli_users_table." WHERE  group_id=member_group_id and group_admin_id=user_id and member_user_id={$_SESSION['user_id']} and member_status=0");
+	while($invite=mysqli_fetch_array($query))
+	{
+		$return=$return.'<label for="invite'.$invite['member_id'].'">'.$invite['user_name'].' has invited you to join '.$invite['group_name'].':&nbsp;&nbsp;&nbsp;</label><input type="button" class="blue_button" id="invite_accept_button'.$invite['member_id'].'" value="Accept Invite">
+	&nbsp;&nbsp;
+	<input type="button" class="red_button" id="invite_reject_button'.$invite['member_id'].'" value="Reject Invite"><br><br>';
+		
+	}
+	$return=$return.'</div></div>';
+	return $return;
+}
+function group_details($group_id){
+	global $dbconfig;
+	$return='<div class="box_top_div"><a href="#">Invitations</a>/Group Details</div><div class="box_body_div"><div id="invitation_list"><table id="group_table"><tr><th>User ID</th><th>User Name</th><th>Status</th><th></th></tr>';
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table.",".global_mysqli_groups_table.",".global_mysqli_users_table." WHERE  group_id=member_group_id and member_user_id=user_id and group_id=$group_id");
+	while($member=mysqli_fetch_array($query))
+	{
+		$return=$return.'<tr><td>'.$member['user_id'].'</td><td>'.$member['user_name'].'</td><td>';
+		if($member['member_status']==0)
+		$return=$return. 'Invite Sent';
+		elseif($member['member_status']==1 && $member['group_admin_id']==$member['user_id'])
+			$return=$return. 'Admin';
+		else
+			$return=$return. 'Member';
+		$return=$return. '</td><td><input type="radio" name="group_details_radio" class="group_details_radio" id="group_details_radio_' . $member['member_id'] . '" value="' . $member['member_id'] . '"></td></tr>';
+		
+	}
+	$return=$return.'</table><br><br>
+	<input type="button" class="red_button" id="delete_member_button" value="Delete Member"><br><br>
+	<label for="invite_roll_no_input">Roll No:</label>&nbsp;&nbsp;<input type="text" id="invite_roll_no_input" autocapitalize="off">
+	<br><br><label for="invite_email_input">Email:</label>&nbsp;&nbsp;<input type="text" id="invite_email_input" autocapitalize="off">
+	<br><br>
+	<input type="button" class="blue_button" id="invite_member_button" value="Invite User">
+	</div></div>';
+	return $return;
 }
 ?>

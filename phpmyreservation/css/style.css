@@ -214,7 +214,16 @@ div#reservation_div
 }
 div#group_div
 {
-	width: 1000px;
+	width: 500px;
+	display:inline-block;
+	margin:60px;
+	}
+
+div#invitation_div
+{
+	width: 500px;
+	display:inline-block;
+	margin-right:60px ;
 }
 div#room_details_div
 {

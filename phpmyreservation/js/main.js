@@ -1114,3 +1114,18 @@ function delete_group(){
 		notify('Please select a group.',4);
 	}
 }
+function group_details()
+{
+	if(typeof $('.group_radio:checked').val()!= 'undefined')
+		{
+			var group_id=$('.group_radio:checked').val();
+			$.post('reservation.php?group_details',{group_id:group_id},function(data){
+				page_load();
+				div_hide('#invitation_div');
+				$('#invitation_div').html(data); 
+				div_fadein('#invitation_div');
+				page_loaded('reservations');
+			});
+		}
+	
+}

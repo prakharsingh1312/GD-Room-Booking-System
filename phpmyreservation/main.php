@@ -23,7 +23,6 @@ define('global_mysqli_reservations_table', 'phpmyreservation_reservations');
 define('global_mysqli_branches_table','phpmyreservation_branches');
 define('global_mysqli_groups_table','phpmyreservation_groups');
 define('global_mysqli_group_members_table','phpmyreservation_group_members');
-define('global_mysqli_group_invitations_table','phpmyreservation_group_invitations');
 
 // Cookies
 
