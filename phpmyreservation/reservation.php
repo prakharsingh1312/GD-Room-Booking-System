@@ -17,8 +17,28 @@ elseif(isset($_GET['delete_group'])){
 	echo delete_group($group_id);
 }
 elseif(isset($_GET['group_details'])){
-	//$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
-	echo group_details(6);
+	$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
+	echo group_details($group_id);
+}
+elseif(isset($_GET['invite'])){
+	$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
+	$email=mysqli_real_escape_string($dbconfig,$_POST['invite_email']);
+	$rollno=mysqli_real_escape_string($dbconfig,$_POST['invite_roll_no']);
+	echo invite_user($group_id,$email,$rollno);
+}
+elseif(isset($_GET['accept_invite']))
+{
+	$member_id=mysqli_real_escape_string($dbconfig,$_POST['member_id']);
+	echo accept_invite($member_id);
+}
+elseif(isset($_GET['reject_invite']))
+{
+	$member_id=mysqli_real_escape_string($dbconfig,$_POST['member_id']);
+	echo reject_invite($member_id);
+}
+elseif(isset($_GET['show_invitations']))
+{
+	echo show_invitations();
 }
 elseif(isset($_GET['delete_reservation']))
 {

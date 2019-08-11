@@ -20,6 +20,22 @@ function showgroups()
 		}
 		  );
 }
+function showgroupdetails(group_id){
+	$.post('reservation.php?group_details',{group_id:group_id},function(data){
+				page_load();
+				div_hide('#invitation_div');
+				$('#invitation_div').html(data); 
+				div_fadein('#invitation_div');
+				page_loaded('reservations');});
+}
+function showinvitations(){
+	page_load();
+	div_hide('#invitation_div');
+	$.get('reservation.php?show_invitations',function(data){
+		$('#invitation_div').html(data); 
+				div_fadein('#invitation_div');
+				page_loaded('reservations');});
+	}
 
 function showlogin()
 {
@@ -892,6 +908,15 @@ $(document).ready( function()
 	$(document).on('click', '.delete_user_reservations_button', function() { 
 		var array = this.id.split(':');
 		delete_user_reservation(array[1],array[2],array[3],array[4])});
+	$(document).on('click','.invite_member_button',function(){
+		var array = this.id.split(':');
+		invite_member(array[1]); });
+	$(document).on('click','.accept_invite_button',function(){
+		var array = this.id.split(':');
+		accept_invite(array[1]); });
+	$(document).on('click','.reject_invite_button',function(){
+		var array = this.id.split(':');
+		reject_invite(array[1]); });
 	$(document).on('click', '#delete_user_button', function() { delete_user_data('user'); });
 	$(document).on('click', '#delete_all_reservations_button', function() { delete_all('reservations'); });
 	$(document).on('click', '#delete_all_users_button', function() { delete_all('users'); });
@@ -1082,7 +1107,9 @@ function delete_user_reservation(week,day,time,id)
 }
 function create_group()
 {
+if($("#group_name_input").length==0){
 	var name=$("#group_name_input").val();
+	
 	$.post('reservation.php?create_group',{group_name:name}, function(data)
 	{
 		if(data == '1')
@@ -1093,6 +1120,9 @@ function create_group()
 		else
 			notify(data,4);
 	});
+}
+	else
+		notify('Group name cannot be empty.',4);
 }
 function delete_group(){
 	if(typeof $('.group_radio:checked').val()!= 'undefined')
@@ -1119,13 +1149,54 @@ function group_details()
 	if(typeof $('.group_radio:checked').val()!= 'undefined')
 		{
 			var group_id=$('.group_radio:checked').val();
-			$.post('reservation.php?group_details',{group_id:group_id},function(data){
-				page_load();
-				div_hide('#invitation_div');
-				$('#invitation_div').html(data); 
-				div_fadein('#invitation_div');
-				page_loaded('reservations');
-			});
+			showgroupdetails(group_id);
+			}
+	else
+		notify('Please select a group.',4);
 		}
+function invite_member(group_id)
+{
+	var invite_roll_no=$('#invite_roll_no_input').val();
+	var invite_email=$('#invite_email_input').val();
+	var regexPattern=new RegExp(/^[0-9-+]+$/);
+	if(invite_email.length==0)
+		notify('Email cannot be empty.',4);
+	else if(invite_roll_no.length==0)
+		notify('Roll No cannot be empty.',4);
+	else if(!regexPattern.test(invite_roll_no))
+		notify('Roll No should contain numbers only.',4);
+	else if(invite_roll_no.length!=9)
+		notify('Roll No should be 9 digits long.',4)
+	else
+	{
+		
+		
+		$.post('reservation.php?invite',{invite_email:invite_email,invite_roll_no:invite_roll_no,group_id:group_id},function(data){
+			if (data==1)
+				{
+				notify('Invite sent.',4);
+				showgroupdetails(group_id);	
+				}
+			else
+				notify(data,4);
+		});}
 	
+}
+function accept_invite(member_id)
+{
+	$.post('reservation.php?accept_invite',{member_id:member_id},function(data){
+		if(data==1)
+			notify('Invite Accepted.',4);
+			showgroups();
+			showinvitations();
+	});
+}
+function reject_invite(member_id)
+{
+	$.post('reservation.php?reject_invite',{member_id:member_id},function(data){
+		if(data==1)
+			notify('Invite Deleted.',4);
+			showgroups();
+			showinvitations();
+	});
 }

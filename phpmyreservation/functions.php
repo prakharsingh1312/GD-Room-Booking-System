@@ -742,15 +742,23 @@ function create_group($group_name){
 }
 function show_groups(){
 	global $dbconfig;
-	$return='<table id="group_table"><tr><th>Group ID</th><th>Group Name</th><th>Group Members</th><th></th></tr>';
-	$query=mysqli_query($dbconfig,"SELECT group_id,group_name,count(member_user_id) FROM ".global_mysqli_groups_table.",".global_mysqli_group_members_table." WHERE group_id=member_group_id and group_admin_id={$_SESSION['user_id']} group by member_group_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$return="";
+	$query=mysqli_query($dbconfig,"SELECT group_id,group_name FROM ".global_mysqli_groups_table.",".global_mysqli_group_members_table." WHERE group_id=member_group_id and member_user_id={$_SESSION['user_id']} and member_status!=0")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	if(mysqli_num_rows($query)!=0)
+	{
+		$return=$return.'<table id="group_table"><tr><th>Group ID</th><th>Group Name</th><th>Group Members</th><th></th></tr>';
 	while($result=mysqli_fetch_array($query)){
-		$return=$return."<tr><td>".$result['group_id']."</td><td>".$result['group_name']."</td><td>".$result['count(member_user_id)'].'</td><td><input type="radio" name="group_radio" class="group_radio" id="group_radio_' . $result['group_id'] . '" value="' . $result['group_id'] . '"></td></tr>';
+		$q=mysqli_query($dbconfig,"SELECT count(*) from ".global_mysqli_group_members_table." where member_group_id={$result['group_id']}");
+		$result2=mysqli_fetch_array($q);
+		$return=$return."<tr><td>".$result['group_id']."</td><td>".$result['group_name']."</td><td>".$result2['count(*)'].'</td><td><input type="radio" name="group_radio" class="group_radio" id="group_radio_' . $result['group_id'] . '" value="' . $result['group_id'] . '"></td></tr>';
 	}
 	$return=$return.'</table><input type="button" class="blue_button" id="group_details_button" value="Group Details">
 	&nbsp;&nbsp;
 	<input type="button" class="red_button" id="delete_group_button" value="Delete Group">
 	<br><br>
+	';
+	}
+	$return=$return.'
 	<label for="group_name_input">Group Name:</label><br><input type="text" id="group_name_input" autocapitalize="off">
 	<br><br>
 	<input type="button" class="blue_button" id="create_group_button" value="Create Group">';
@@ -777,9 +785,9 @@ function show_invitations(){
 	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table.",".global_mysqli_groups_table.",".global_mysqli_users_table." WHERE  group_id=member_group_id and group_admin_id=user_id and member_user_id={$_SESSION['user_id']} and member_status=0");
 	while($invite=mysqli_fetch_array($query))
 	{
-		$return=$return.'<label for="invite'.$invite['member_id'].'">'.$invite['user_name'].' has invited you to join '.$invite['group_name'].':&nbsp;&nbsp;&nbsp;</label><input type="button" class="blue_button" id="invite_accept_button'.$invite['member_id'].'" value="Accept Invite">
+		$return=$return.'<label for="invite'.$invite['member_id'].'">'.$invite['user_name'].' has invited you to join '.$invite['group_name'].':&nbsp;&nbsp;&nbsp;</label><input type="button" class="blue_button accept_invite_button" id="invite_accept_button:'.$invite['member_id'].'" value="Accept Invite">
 	&nbsp;&nbsp;
-	<input type="button" class="red_button" id="invite_reject_button'.$invite['member_id'].'" value="Reject Invite"><br><br>';
+	<input type="button" class="red_button reject_invite_button" id="reject_invite_button:'.$invite['member_id'].'" value="Reject Invite"><br><br>';
 		
 	}
 	$return=$return.'</div></div>';
@@ -787,11 +795,11 @@ function show_invitations(){
 }
 function group_details($group_id){
 	global $dbconfig;
-	$return='<div class="box_top_div"><a href="#">Invitations</a>/Group Details</div><div class="box_body_div"><div id="invitation_list"><table id="group_table"><tr><th>User ID</th><th>User Name</th><th>Status</th><th></th></tr>';
+	$return='<div class="box_top_div"><a href="">Invitations</a>/Group Details</div><div class="box_body_div"><div id="invitation_list"><table id="group_table"><tr><th>User Roll Number</th><th>User Name</th><th>Status</th><th></th></tr>';
 	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table.",".global_mysqli_groups_table.",".global_mysqli_users_table." WHERE  group_id=member_group_id and member_user_id=user_id and group_id=$group_id");
 	while($member=mysqli_fetch_array($query))
 	{
-		$return=$return.'<tr><td>'.$member['user_id'].'</td><td>'.$member['user_name'].'</td><td>';
+		$return=$return.'<tr><td>'.$member['user_roll_no'].'</td><td>'.$member['user_name'].'</td><td>';
 		if($member['member_status']==0)
 		$return=$return. 'Invite Sent';
 		elseif($member['member_status']==1 && $member['group_admin_id']==$member['user_id'])
@@ -801,13 +809,68 @@ function group_details($group_id){
 		$return=$return. '</td><td><input type="radio" name="group_details_radio" class="group_details_radio" id="group_details_radio_' . $member['member_id'] . '" value="' . $member['member_id'] . '"></td></tr>';
 		
 	}
-	$return=$return.'</table><br><br>
+	$query2=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." where group_id=$group_id and group_admin_id={$_SESSION['user_id']}");
+	$return=$return.'</table><br><br>';
+	if(mysqli_num_rows($query)<8 && mysqli_num_rows($query2)==1)
+		$return=$return.'
 	<input type="button" class="red_button" id="delete_member_button" value="Delete Member"><br><br>
 	<label for="invite_roll_no_input">Roll No:</label>&nbsp;&nbsp;<input type="text" id="invite_roll_no_input" autocapitalize="off">
 	<br><br><label for="invite_email_input">Email:</label>&nbsp;&nbsp;<input type="text" id="invite_email_input" autocapitalize="off">
 	<br><br>
-	<input type="button" class="blue_button" id="invite_member_button" value="Invite User">
+	<input type="button" class="blue_button invite_member_button" id="invite_member_button:'.$group_id.'" value="Invite User">';
+	$return=$return.'
 	</div></div>';
 	return $return;
 }
+function invite_user($group_id,$email,$rollno){
+	if(!validate_user_email($email))
+	{
+		return 'Email format incorrect.';
+	}
+	
+
+	else
+	{
+		global $dbconfig;
+		$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_users_table." WHERE user_roll_no=$rollno and user_email='$email'");
+		if(mysqli_num_rows($query)!=1){
+			return "Incorect Email and Roll No. combination.";
+		}
+		else{
+			$result=mysqli_fetch_array($query);
+			$id=$result['user_id'];
+			$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table." WHERE member_user_id=$id and member_group_id=$group_id");
+			if(mysqli_num_rows($query)!=0)
+			{
+				$result=mysqli_fetch_array($query);
+				if($result['member_status']==0)
+					return "Invite already sent.";
+				else
+					return 'User is already a member.';
+			}
+			else
+			{
+				$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_group_members_table." (member_group_id,member_user_id) VALUES ($group_id,$id)");
+				if($query)
+					return 1;
+			}
+		}
+				
+		}
+	}
+function accept_invite($member_id)
+{
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"UPDATE ".global_mysqli_group_members_table." SET member_status=1 WHERE member_id=$member_id");
+	if ($query)
+		return 1;
+}
+function reject_invite($member_id)
+{
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"DELETE FROM ".global_mysqli_group_members_table." WHERE member_id=$member_id");
+	if ($query)
+		return 1;
+}
+
 ?>
