@@ -748,13 +748,20 @@ function show_groups(){
 	{
 		$return=$return.'<table id="group_table"><tr><th>Group ID</th><th>Group Name</th><th>Group Members</th><th></th></tr>';
 	while($result=mysqli_fetch_array($query)){
-		$q=mysqli_query($dbconfig,"SELECT count(*) from ".global_mysqli_group_members_table." where member_group_id={$result['group_id']}");
+		$q=mysqli_query($dbconfig,"SELECT count(*) from ".global_mysqli_group_members_table." where member_group_id={$result['group_id']} and member_status!=0");
+		$q2=mysqli_query($dbconfig,"SELECT count(*) from ".global_mysqli_group_members_table." where member_group_id={$result['group_id']} and member_status=0");
 		$result2=mysqli_fetch_array($q);
-		$return=$return."<tr><td>".$result['group_id']."</td><td>".$result['group_name']."</td><td>".$result2['count(*)'].'</td><td><input type="radio" name="group_radio" class="group_radio" id="group_radio_' . $result['group_id'] . '" value="' . $result['group_id'] . '"></td></tr>';
+		$result3=mysqli_fetch_array($q2);
+		$return=$return."<tr><td>".$result['group_id']."</td><td>".$result['group_name']."</td><td>".$result2['count(*)'];
+		if($result3['count(*)']>0)
+			$return=$return.' ('.$result2['count(*)'].' pending)';
+		$return=$return.'</td><td><input type="radio" name="group_radio" class="group_radio" id="group_radio_' . $result['group_id'] . '" value="' . $result['group_id'] . '"></td></tr>';
 	}
 	$return=$return.'</table><input type="button" class="blue_button" id="group_details_button" value="Group Details">
 	&nbsp;&nbsp;
 	<input type="button" class="red_button" id="delete_group_button" value="Delete Group">
+	&nbsp;&nbsp;
+	<input type="button" class="blue_button" id="select_group_button" value="Select Group">
 	<br><br>
 	';
 	}
@@ -773,6 +780,7 @@ function delete_group($group_id){
 		$query=mysqli_query($dbconfig,"DELETE FROM ".global_mysqli_group_members_table." WHERE member_group_id=$group_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		if($query)
 		{
+			unset($_SESSION['selected_group']);
 			return 1;
 		}
 	}
@@ -872,5 +880,41 @@ function reject_invite($member_id)
 	if ($query)
 		return 1;
 }
-
+function select_group($group_id)
+{
+	unset ($_SESSION['selected_group']);
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." WHERE group_id=$group_id AND group_admin_id={$_SESSION['user_id']}");
+	if(mysqli_num_rows($query)==1)
+	{
+		$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table." WHERE member_group_id=$group_id and member_status!=0");
+		if(mysqli_num_rows($query)<minimum_members())
+			return 'Minimum '.minimum_members()." members should be there in a group to book a slot";
+		else{
+		$_SESSION['selected_group']=$group_id;
+		return 'Group Selected Successfully.';
+		}
+	}
+	else
+	{
+		return 'Only group admins can book slots.';
+	}
+	
+}
+function minimum_members(){
+	return 2;
+}
+function group_selected_name(){
+	global $dbconfig;
+	if(isset($_SESSION['selected_group']))
+	{
+		$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." WHERE group_id={$_SESSION['selected_group']}");
+		if(mysqli_num_rows($query)>0){
+		$result=mysqli_fetch_array($query);
+			return $result['group_name'];
+		}
+		else
+			return 'Not Found';
+	}
+}
 ?>

@@ -12,9 +12,15 @@ if(isset($_GET['make_reservation']))
 	$room_id=mysqli_real_escape_string($dbconfig,$_POST['room_id']);
 	echo make_reservation($week, $day, $time,$room_id);
 }
+
 elseif(isset($_GET['delete_group'])){
 	$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
 	echo delete_group($group_id);
+}
+
+elseif(isset($_GET['select_group'])){
+	$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
+	echo select_group($group_id);
 }
 elseif(isset($_GET['group_details'])){
 	$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
@@ -84,9 +90,11 @@ elseif(isset($_GET['book']))
 }
 elseif(isset($_GET['week']))
 {
+	if(isset($_SESSION['selected_group']))
+	{
 	$week = $_GET['week'];
 
-	echo '<table id="reservation_table"><colgroup span="1" id="reservation_time_colgroup"></colgroup><colgroup span="7" id="reservation_day_colgroup"></colgroup>';
+	echo 'Group Selected:'.group_selected_name().'<br><table id="reservation_table"><colgroup span="1" id="reservation_time_colgroup"></colgroup><colgroup span="7" id="reservation_day_colgroup"></colgroup>';
 
 	$days_row = '<tr><td id="reservation_corner_td"><input type="button" class="blue_button small_button" id="reservation_today_button" value="Today"></td><th class="reservation_day_th">Monday</th><th class="reservation_day_th">Tuesday</th><th class="reservation_day_th">Wednesday</th><th class="reservation_day_th">Thursday</th><th class="reservation_day_th">Friday</th><th class="reservation_day_th">Saturday</th><th class="reservation_day_th">Sunday</th></tr>';
 
@@ -119,6 +127,10 @@ elseif(isset($_GET['week']))
 	}
 
 	echo '</table>';
+	}
+	else{
+		echo 'Please select a group to make reservations.';
+	}
 }
 else
 {
@@ -133,16 +145,7 @@ else
 	</div>
 	<br><br>
 	
-	<div class="box_div" id="reservation_div"><div class="box_top_div" id="reservation_top_div"><div id="reservation_top_left_div"><a href="." id="previous_week_a">&lt; Previous week</a></div><div id="reservation_top_center_div">Reservations for week <span id="week_number_span">' . global_week_number . '</span></div><div id="reservation_top_right_div"><a href="." id="next_week_a">Next week &gt;</a></div></div><div class="box_body_div"><div id="reservation_table_div"></div></div></div><div id="reservation_details_div"><div id="myModal" class="modal">
-
-  <!-- Modal content -->
-	
-  <div class="modal-content">
-    <span class="close">&times;</span>
-	  <div id="modal_content"></div>
-  </div>
-
-</div>';
+	<div class="box_div" id="reservation_div"><div class="box_top_div" id="reservation_top_div"><div id="reservation_top_left_div"><a href="." id="previous_week_a">&lt; Previous week</a></div><div id="reservation_top_center_div">Reservations for week <span id="week_number_span">' . global_week_number . '</span></div><div id="reservation_top_right_div"><a href="." id="next_week_a">Next week &gt;</a></div></div><div class="box_body_div"><div id="reservation_table_div"></div></div></div>';
 }
 
 ?>

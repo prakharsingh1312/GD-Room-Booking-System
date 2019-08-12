@@ -903,6 +903,7 @@ $(document).ready( function()
 	$(document).on('click', '#reservation_today_button', function() { showweek(global_week_number, 'today'); });
 	$(document).on('click', '#delete_group_button', function() { delete_group(); });
 	$(document).on('click', '#group_details_button', function() { group_details(); });
+	$(document).on('click', '#select_group_button', function() { select_group(); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
 	$(document).on('click', '#change_user_permissions_button', function() { change_user_permissions(); });
 	$(document).on('click', '.delete_user_reservations_button', function() { 
@@ -1175,7 +1176,8 @@ function invite_member(group_id)
 			if (data==1)
 				{
 				notify('Invite sent.',4);
-				showgroupdetails(group_id);	
+				showgroupdetails(group_id);
+				showgroups();
 				}
 			else
 				notify(data,4);
@@ -1199,4 +1201,16 @@ function reject_invite(member_id)
 			showgroups();
 			showinvitations();
 	});
+}
+function select_group(){
+	if(typeof $('.group_radio:checked').val()!= 'undefined')
+		{
+			var group_id=$('.group_radio:checked').val();
+			$.post('reservation.php?select_group',{group_id:group_id},function(data){
+				notify(data,4);
+				showweek(global_week_number, 'today');
+			});
+			}
+	else
+		notify('Please select a group.',4);
 }
