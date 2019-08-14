@@ -81,7 +81,7 @@ elseif(isset($_GET['create_group']))
 	$group_name=mysqli_real_escape_string($dbconfig,$_POST['group_name']);
 	echo create_group($group_name);
 }
-elseif(isset($_GET['book']))
+elseif(isset($_GET['book'])&& isset($_SESSION['selected_group']))
 {
 	$week=mysqli_real_escape_string($dbconfig,$_POST['week']);
 	$day=mysqli_real_escape_string($dbconfig,$_POST['day']);
