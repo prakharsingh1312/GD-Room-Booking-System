@@ -669,10 +669,11 @@ function slot_booked(){
 	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table .",".global_mysqli_group_members_table.",".global_mysqli_groups_table.",".global_mysqli_room_details_table." WHERE room_id=reservation_room_id and reservation_group_id=member_group_id and group_id=member_group_id and member_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$num=mysqli_fetch_array($query);
 	$return= '<div class="box_div" style="width:500px;"><div class="box_top_div">Booking Status</div><div class="box_body_div"><center>Slot Booked<br><br>Group Name:'.$num['group_name'].'<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br>Room Name:'.$num['room_name'];
-	if($num['group_admin_id']==$_SESSION['user_id'])
+	//if($num['group_admin_id']==$_SESSION['user_id'])
 	$return=$return.'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center></div></div>';
-	else
-		$return=$return.'<br><br>To cancel this booking contact your group admin.';
+	//else
+		//$return=$return.'<br><br>To cancel this booking contact your group admin.';
+	$_SESSION['selected_group']=$num['group_id'];
 	return $return;
 }
 function get_room_details($week,$day,$time){
@@ -889,7 +890,7 @@ function select_group($group_id)
 {
 	unset ($_SESSION['selected_group']);
 	global $dbconfig;
-	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." WHERE group_id=$group_id AND group_admin_id={$_SESSION['user_id']}");
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table.",".global_mysqli_group_members_table." WHERE group_id=$group_id AND member_group_id=group_id and member_user_id={$_SESSION['user_id']}");
 	if(mysqli_num_rows($query)==1)
 	{
 		$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table." WHERE member_group_id=$group_id and member_status!=0");
@@ -902,7 +903,7 @@ function select_group($group_id)
 	}
 	else
 	{
-		return 'Only group admins can book slots.';
+		return 'Only group members can select groups.';
 	}
 	
 }

@@ -1108,7 +1108,7 @@ function delete_user_reservation(week,day,time,id)
 }
 function create_group()
 {
-if($("#group_name_input").length==0){
+if($("#group_name_input").length!=0){
 	var name=$("#group_name_input").val();
 	
 	$.post('reservation.php?create_group',{group_name:name}, function(data)
