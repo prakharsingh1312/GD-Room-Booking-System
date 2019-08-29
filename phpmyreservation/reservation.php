@@ -72,10 +72,7 @@ elseif(isset($_GET['read_reservation_details']))
 	$time = mysqli_real_escape_string($dbconfig,$_POST['time']);
 	echo read_reservation_details($week, $day, $time);
 }
-elseif(check_reservation()==1){
-	echo slot_booked();
-	
-}
+
 elseif(isset($_GET['create_group']))
 {
 	$group_name=mysqli_real_escape_string($dbconfig,$_POST['group_name']);
@@ -118,7 +115,7 @@ elseif(isset($_GET['week']))
 			$i++;
 
 			echo '<td><div class="reservation_time_div"';
-			if($_SESSION['user_is_admin']!=1 && strtotime('now')>=strtotime(global_year."W".$week."-".$i))
+			if($_SESSION['user_is_admin']!=1 && strtotime('now')-86400>=strtotime(global_year."W".$week."-".($i)))
 				echo'style="pointer-events:none;opacity:.5;"';
 			echo'><div class="reservation_time_cell_div" id="div:' . $week . ':' . $i . ':' . $time . '" onclick="void(0)">' . read_reservation($week, $i, $time) . '</div></div></td>';
 		}
@@ -134,11 +131,16 @@ elseif(isset($_GET['week']))
 }
 else
 {
+	if(check_reservation()>0){
+	echo slot_booked();
+	
+}
+	if(check_reservation()<2){
 	echo'<div class="box_div" id="group_div"><div class="box_top_div">Groups</div><div class="box_body_div"><div id="group_list">';
 	echo show_groups();
 	echo'
 	
-	</div></div></div><div class="box_div" id="invitation_div">';
+	</div></div></div><br><br><div class="box_div" id="invitation_div">';
 	echo show_invitations();
 	echo'
 	
@@ -146,6 +148,6 @@ else
 	<br><br>
 	
 	<div class="box_div" id="reservation_div"><div class="box_top_div" id="reservation_top_div"><div id="reservation_top_left_div"><a href="." id="previous_week_a">&lt; Previous week</a></div><div id="reservation_top_center_div">Reservations for week <span id="week_number_span">' . global_week_number . '</span></div><div id="reservation_top_right_div"><a href="." id="next_week_a">Next week &gt;</a></div></div><div class="box_body_div"><div id="reservation_table_div"></div></div></div>';
-}
+}}
 
 ?>

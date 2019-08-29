@@ -657,33 +657,44 @@ function change_user_details($user_name, $user_email, $user_password)
 }
 function check_reservation(){
 	global $dbconfig;
-	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table .",".global_mysqli_group_members_table." WHERE reservation_group_id=member_group_id and member_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$year=date("Y",time());
+	$week=date("W",time());
+	$day=date("N",time());
+	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table .",".global_mysqli_group_members_table." WHERE reservation_group_id=member_group_id and member_user_id={$_SESSION['user_id']} and ((reservation_week=$week and reservation_year=$year and reservation_day>=$day) or (reservation_week>$week and reservation_year=$year)or(reservation_year>$year))")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$num=mysqli_num_rows($query);
-	if($num>0)
-		return 1;
-	else
-		return 0;
+	return $num;
 }
 function slot_booked(){
 	global $dbconfig;
-	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table .",".global_mysqli_group_members_table.",".global_mysqli_groups_table.",".global_mysqli_room_details_table." WHERE room_id=reservation_room_id and reservation_group_id=member_group_id and group_id=member_group_id and member_user_id={$_SESSION['user_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
-	$num=mysqli_fetch_array($query);
-	$return= '<div class="box_div" style="width:500px;"><div class="box_top_div">Booking Status</div><div class="box_body_div"><center>Slot Booked<br><br>Group Name:'.$num['group_name'].'<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br>Room Name:'.$num['room_name'];
+	$year=date("Y",time());
+	$week=date("W",time());
+	$day=date("N",time());
+	
+	$return="";	
+	$query=mysqli_query($dbconfig,"SELECT * FROM ". global_mysqli_reservations_table .",".global_mysqli_group_members_table.",".global_mysqli_groups_table.",".global_mysqli_room_details_table." WHERE room_id=reservation_room_id and reservation_group_id=member_group_id and group_id=member_group_id and member_user_id={$_SESSION['user_id']} and ((reservation_week=$week and reservation_year=$year and reservation_day>=$day) or (reservation_week>$week and reservation_year=$year)or(reservation_year>$year))")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	while($num=mysqli_fetch_array($query)){
+	$return=$return.'<div class="box_div" style="width:500px;"><div class="box_top_div">Booking Status</div><div class="box_body_div"><center>Slot Booked<br><br>Group Name:'.$num['group_name'].'<br>Week:'.$num['reservation_week'].'<br>Day:'.$num['reservation_day'].'<br>Time:'.$num['reservation_time'].'<br>Room Name:'.$num['room_name'];
 	//if($num['group_admin_id']==$_SESSION['user_id'])
-	$return=$return.'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center></div></div>';
+	$return=$return.'<br><br><input type="button" class="blue_button deleteBookingButton" id="'.$num['reservation_id'].':'.$num['reservation_week'].':'.$num['reservation_day'].':'.$num['reservation_time'].'" value="Delete Slot"></center></div></div><br><br><br>';
 	//else
 		//$return=$return.'<br><br>To cancel this booking contact your group admin.';
-	$_SESSION['selected_group']=$num['group_id'];
+	$_SESSION['selected_group']=$num['group_id'];}
 	return $return;
 }
 function get_room_details($week,$day,$time){
 	global $dbconfig;
 	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_room_details_table." WHERE room_id NOT IN (SELECT room_id FROM ".global_mysqli_room_details_table.",".global_mysqli_reservations_table." WHERE room_id=reservation_room_id AND reservation_week='$week' and reservation_time='$time' and reservation_day='$day')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$return="<div class='box_div' id ='room_details_div'><div class='box_top_div'><div id='room_details_top_left_div'><a href='#'>Start</a> &gt; Rooms Available</div><div id='room_details_top_center_div'>Time:".$time."</div><div id='room_details_top_right_div'>Date ".date("d-M-Y",strtotime(global_year."-W".$week."-".$day))."</div></div><div class='box_body_div'><p>Group: ".group_selected_name()."</p>";
+	$i=0;
 	while($room=mysqli_fetch_array($query))
 	{
 		if($room['STATUS']=='Y')
-		$return=$return.'<input type="button" class="blue_button roomBookButton" id="'.$room['room_id'].':'.$week.':'.$day.':'.$time.'" value="'.$room['room_name'].'">&nbsp;&nbsp;&nbsp;';
+		$return=$return.'<input type="button" class="blue_button roomBookButton" id="'.$room['room_id'].':'.$week.':'.$day.':'.$time.'" value="'.$room['room_code'].": ".$room['room_name'].'">&nbsp;&nbsp;&nbsp;';
+		$i++;
+		if($i==4){
+			$return=$return."<br><br>";
+			$i=0;
+		}
 	}
 	$return=$return."</div></div>";
 	return $return;
@@ -697,9 +708,11 @@ function list_reservations()
 
 	while($user = mysqli_fetch_array($query))
 	{
+		
 		$time="Time:".$user['reservation_time']."<br>".date("d-M-Y", strtotime($user['reservation_year']."W".$user['reservation_week']."-".$user['reservation_day']));
 		$users .= '<tr id="user_tr_' . $user['user_id'] . '"><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_id'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_name'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_email'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="button" class="small_button delete_user_reservations_button" id="delete_user_reservations_button:'.$user['reservation_week'].":".$user['reservation_day'].":".$user['reservation_time'].":".$user['reservation_id'].'" value="Delete Reservation"></td></tr>';
-	}
+		}
+	
 
 	$users .= '</table>';
 

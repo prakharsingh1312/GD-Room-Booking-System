@@ -162,6 +162,12 @@ function showhelp()
 	div_hide('#content_div');
 	$.get('help.php', function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded(); });
 }
+function showroom()
+{
+	page_load();
+	div_hide('#content_div');
+	$.get('room.php', function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded(); });
+}
 
 // Page load
 
@@ -1012,6 +1018,10 @@ function hash()
 		{
 			logout();
 		}
+		else if(hash == 'room')
+			{
+				showroom()
+			}
 		else
 		{
 			window.location.replace('.');

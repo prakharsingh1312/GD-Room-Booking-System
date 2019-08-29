@@ -98,6 +98,7 @@ div#content_div
 	opacity: 0;
 	margin-top: 20px;
 	width: 100%;
+	text-align: -webkit-center;
 }
 
 div#preload_div
@@ -215,15 +216,15 @@ div#reservation_div
 div#group_div
 {
 	width: 500px;
-	display:inline-block;
-	margin:60px;
+/*	display:inline-block;*/
+/*	margin:60px;*/
 	}
 
 div#invitation_div
 {
 	width: 500px;
-	display:inline-block;
-	margin-right:60px ;
+/*	display:inline-block;*/
+/*	margin-right:60px ;*/
 }
 div#room_details_div
 {
