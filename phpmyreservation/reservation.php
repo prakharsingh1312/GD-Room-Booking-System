@@ -12,7 +12,10 @@ if(isset($_GET['make_reservation']))
 	$room_id=mysqli_real_escape_string($dbconfig,$_POST['room_id']);
 	echo make_reservation($week, $day, $time,$room_id);
 }
-
+elseif(isset($_GET['delete_member'])){
+	$member_id=mysqli_real_escape_string($dbconfig,$_POST['member_id']);
+	echo delete_member($member_id);
+}
 elseif(isset($_GET['delete_group'])){
 	$group_id=mysqli_real_escape_string($dbconfig,$_POST['group_id']);
 	echo delete_group($group_id);

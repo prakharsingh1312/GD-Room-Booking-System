@@ -910,6 +910,7 @@ $(document).ready( function()
 	$(document).on('click', '#delete_group_button', function() { delete_group(); });
 	$(document).on('click', '#group_details_button', function() { group_details(); });
 	$(document).on('click', '#select_group_button', function() { select_group(); });
+	$(document).on('click', '#delete_member_button', function() { delete_member(); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
 	$(document).on('click', '#change_user_permissions_button', function() { change_user_permissions(); });
 	$(document).on('click', '.delete_user_reservations_button', function() { 
@@ -1145,6 +1146,27 @@ function delete_group(){
 				if (data==1){
 				notify('Group deleted successfully',4);
 					showgroups();
+				}
+				else
+					notify(data,4);			
+			})
+		}
+		}
+	else{
+		notify('Please select a group.',4);
+	}
+}function delete_member(){
+	if(typeof $('.group_details_radio:checked').val()!= 'undefined')
+		{
+			var delete_confirm=confirm('Are you sure?');
+			if (delete_confirm){
+				var array= $('.group_details_radio:checked').val().split(':');
+	var member_id=array[0];
+				var group_id=array[1];
+			$.post('reservation.php?delete_member',{member_id:member_id},function(data){
+				if (data==1){
+				notify('Member deleted successfully',4);
+					showgroupdetails(group_id);
 				}
 				else
 					notify(data,4);			

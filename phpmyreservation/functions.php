@@ -833,7 +833,7 @@ function group_details($group_id){
 			$return=$return. 'Admin';
 		else
 			$return=$return. 'Member';
-		$return=$return. '</td><td><input type="radio" name="group_details_radio" class="group_details_radio" id="group_details_radio_' . $member['member_id'] . '" value="' . $member['member_id'] . '"></td></tr>';
+		$return=$return. '</td><td><input type="radio" name="group_details_radio" class="group_details_radio" id="group_details_radio_' . $member['member_id'] . '" value="' . $member['member_id'] . ':'.$member['group_id'].'"></td></tr>';
 		
 	}
 	$query2=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_groups_table." where group_id=$group_id and group_admin_id={$_SESSION['user_id']}");
@@ -935,5 +935,24 @@ function group_selected_name(){
 		else
 			return 'Not Found';
 	}
+}
+function delete_member($member_id){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_group_members_table.",".global_mysqli_groups_table." WHERE member_id=$member_id and group_id=member_group_id");
+	$result=mysqli_fetch_array($query);
+	if($result['group_admin_id']==$_SESSION['user_id'] && $result['member_user_id']!=$result['group_admin_id'])
+	{
+		$query=mysqli_query($dbconfig,"DELETE FROM ".global_mysqli_group_members_table." WHERE member_id=$member_id");
+		unset($_SESSION['selected_group']);
+		return 1;
+	}
+	elseif($result['member_user_id']==$result['group_admin_id']){
+		return "You can not delete yourself from a group that you created.";
+	}
+	else
+	{
+		return "You can not delete someone from a group that you haven't created.";
+	}
+	
 }
 ?>

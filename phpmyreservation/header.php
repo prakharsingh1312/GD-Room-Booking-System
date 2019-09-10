@@ -30,6 +30,9 @@ if(isset($_SESSION['logged_in']))
 
 if(isset($_SESSION['logged_in']))
 {
+	if($_SESSION['user_is_admin']){
+		echo '<a href="#ma">See Reservations</a> | ';
+	}
 	echo '<a href="#cp">Control panel</a> | <a href="#logout">Log out</a>';
 }
 else
