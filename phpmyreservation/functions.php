@@ -702,15 +702,15 @@ function get_room_details($week,$day,$time){
 function list_reservations()
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . ",".global_mysqli_reservations_table.",".global_mysqli_room_details_table." WHERE user_id=reservation_group_id AND reservation_room_id=room_id ORDER BY reservation_year DESC,reservation_week DESC,reservation_time DESC,reservation_room_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_groups_table . ",".global_mysqli_reservations_table.",".global_mysqli_room_details_table." WHERE group_id=reservation_group_id AND reservation_room_id=room_id ORDER BY reservation_year DESC,reservation_week DESC,reservation_time DESC,reservation_room_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
-	$users = '<table id="users_table"><tr><th>ID</th><th>Name</th><th>Email</th><th>Reservation</th><th>Room</th><th></th></tr>';
+	$users = '<table id="users_table"><tr><th>ID</th><th>Name</th><th>Reservation</th><th>Room</th><th></th></tr>';
 
 	while($user = mysqli_fetch_array($query))
 	{
 		
 		$time="Time:".$user['reservation_time']."<br>".date("d-M-Y", strtotime($user['reservation_year']."W".$user['reservation_week']."-".$user['reservation_day']));
-		$users .= '<tr id="user_tr_' . $user['user_id'] . '"><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_id'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_name'] . '</label></td><td><label for="user_radio_' . $user['user_id'] . '">' . $user['user_email'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="button" class="small_button delete_user_reservations_button" id="delete_user_reservations_button:'.$user['reservation_week'].":".$user['reservation_day'].":".$user['reservation_time'].":".$user['reservation_id'].'" value="Delete Reservation"></td></tr>';
+		$users .= '<tr id="user_tr_' . $user['group_id'] . '"><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_id'] . '</label></td><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_name'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="button" class=" blue_button reservation_details_button" id="'.$user['reservation_id'].'" value="Details"></td></tr>';
 		}
 	
 
@@ -955,4 +955,5 @@ function delete_member($member_id){
 	}
 	
 }
+
 ?>

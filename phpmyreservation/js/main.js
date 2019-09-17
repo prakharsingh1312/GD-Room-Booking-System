@@ -1,4 +1,9 @@
 // Show pages
+function show_reservation_details(group_id){
+	page_load('see_reservation');
+	div_hide('#reservation_details_div');
+$.post('see_reservations.php?',{group_id:group_id}, function(data) { $('#reservation_details_div').html(data); div_fadein('#content_div'); page_loaded('see_reservation'); });
+}
 function showrooms(week,day,time)
 {
 	page_load('book');
@@ -67,6 +72,13 @@ function shownew_user()
 	page_load();
 	div_hide('#content_div');
 	$.get('login.php?new_user', function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded(); input_focus('#user_name_input'); });
+	
+}
+function showallreservations()
+{
+	page_load();
+	div_hide('#content_div');
+	$.get('see_reservations.php', function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded();  });
 	
 }
 
@@ -907,6 +919,9 @@ $(document).ready( function()
 
 	// Buttons
 	$(document).on('click', '#reservation_today_button', function() { showweek(global_week_number, 'today'); });
+	$(document).on('click', '.reservation_details_button', function() { 
+		var array=this.id.val();
+		show_reservation_details(array); });
 	$(document).on('click', '#delete_group_button', function() { delete_group(); });
 	$(document).on('click', '#group_details_button', function() { group_details(); });
 	$(document).on('click', '#select_group_button', function() { select_group(); });
@@ -1022,6 +1037,10 @@ function hash()
 		else if(hash == 'room')
 			{
 				showroom()
+			}
+		else if(hash == 'ma')
+			{
+				showallreservations()
 			}
 		else
 		{
