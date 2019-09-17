@@ -14,10 +14,18 @@ else{
 	$query = mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_room_details_table." ORDER BY room_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	echo '
+	<div class="box_div" id="room_detail_div" style="max-width: 50%">
+	<div class="box_top_div">Room Availability</div>	
+	<div class="box_body_div">
 
+	</div>
+	</div>
 	';
 
-	echo '<div class="box_div" id="room_div" style="max-width: 70%">
+	echo '
+	<br><br>
+	<div class="box_div" id="room_div" style="max-width: 70%">
+
 	<div class="box_top_div">Room Details</div>
 	<div class="box_body_div" >';
 	// echo show_room_page();

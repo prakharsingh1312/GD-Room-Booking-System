@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2019 at 01:11 PM
+-- Generation Time: Sep 17, 2019 at 01:33 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -37,26 +37,27 @@ CREATE TABLE `gd_rooms_facility_detail` (
   `Seating_Capacity` int(11) DEFAULT NULL,
   `HDMI` varchar(3) CHARACTER SET utf8 DEFAULT NULL,
   `VGA` varchar(3) CHARACTER SET utf8 DEFAULT NULL,
-  `STATUS` varchar(1) NOT NULL DEFAULT 'Y'
+  `STATUS` varchar(1) NOT NULL DEFAULT 'Y',
+  `room_code` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `gd_rooms_facility_detail`
 --
 
-INSERT INTO `gd_rooms_facility_detail` (`room_name`, `room_id`, `Floor`, `TV`, `Projector`, `Seating_Capacity`, `HDMI`, `VGA`, `STATUS`) VALUES
-('Ganga', 1, 'Ground', 'Yes', 'No', 8, 'NO', 'YES', 'Y'),
-('Yamuna', 3, 'First', 'No', 'Yes', 8, 'NO', 'NO', 'Y'),
-('Godavari', 4, 'First', 'Yes', 'No', 8, 'YES', 'NO', 'Y'),
-('Cauvery', 5, 'First', 'No', 'No', 8, 'NO', 'NO', 'Y'),
-('Brahamputra', 6, 'Second', 'No', 'Yes', 8, 'NO', 'NO', 'Y'),
-('Krishna', 7, 'Second', 'No', 'No', 8, 'NO', 'NO', 'Y'),
-('Narmada', 9, 'Second', 'Yes', 'No', 8, 'NO', 'YES', 'Y'),
-('Saraswati', 10, 'Third', 'No', 'Yes', 8, 'YES', 'NO', 'Y'),
-('Sabarmati', 11, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y'),
-('Beas', 12, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y'),
-('Chenab', 13, 'Third', 'Yes', 'No', 8, 'NO', 'YES', 'Y'),
-('Jhelam', 14, 'Third', 'Yes', 'No', 8, 'YES', 'YES', 'Y');
+INSERT INTO `gd_rooms_facility_detail` (`room_name`, `room_id`, `Floor`, `TV`, `Projector`, `Seating_Capacity`, `HDMI`, `VGA`, `STATUS`, `room_code`) VALUES
+('Ganga', 1, 'Ground', 'Yes', 'No', 8, 'NO', 'YES', 'Y', '0'),
+('Yamuna', 3, 'First', 'No', 'Yes', 8, 'NO', 'NO', 'Y', '0'),
+('Godavari', 4, 'First', 'Yes', 'No', 8, 'YES', 'NO', 'Y', '0'),
+('Cauvery', 5, 'First', 'No', 'No', 8, 'NO', 'NO', 'Y', '0'),
+('Brahamputra', 6, 'Second', 'No', 'Yes', 8, 'NO', 'NO', 'Y', '0'),
+('Krishna', 7, 'Second', 'No', 'No', 8, 'NO', 'NO', 'Y', '0'),
+('Narmada', 9, 'Second', 'Yes', 'No', 8, 'NO', 'YES', 'Y', '0'),
+('Saraswati', 10, 'Third', 'No', 'Yes', 8, 'YES', 'NO', 'Y', '0'),
+('Sabarmati', 11, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y', '0'),
+('Beas', 12, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y', '0'),
+('Chenab', 13, 'Third', 'Yes', 'No', 8, 'NO', 'YES', 'Y', '0'),
+('Jhelam', 14, 'Third', 'Yes', 'No', 8, 'YES', 'YES', 'Y', '0');
 
 -- --------------------------------------------------------
 
