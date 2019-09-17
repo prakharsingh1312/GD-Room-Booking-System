@@ -7,7 +7,7 @@ define('global_mysqli_server', 'localhost');
 define('global_mysqli_user', 'root');
 define('global_mysqli_password', '');
 define('global_mysqli_database', 'phpmyreservation');
-
+define('global_mysqli_room_details_table','phpmyreservation_roomdetails');
 // Salt for password encryption. Changing it is recommended. Use 9 random characters
 // This MUST be 9 characters, and must NOT be changed after users have been created
 define('global_salt', 'k4i8pa2m5');
