@@ -5,7 +5,7 @@
 <html>
 
 <head>
-
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 
 <noscript><meta http-equiv="refresh" content="0; url=error.php?error_code=2"></noscript>
