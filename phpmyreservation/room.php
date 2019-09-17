@@ -12,7 +12,7 @@ if(isset($_GET['roomdetail']))
 }
 else{
 	$query = mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_room_details_table." ORDER BY room_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
-
+	// $query2 = mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_reservations_table." WHERE reservation_room_id = $room_id ORDER BY")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	echo '
 	<div class="box_div" id="room_detail_div" style="max-width: 50%">
 	<div class="box_top_div">Room Availability</div>	
