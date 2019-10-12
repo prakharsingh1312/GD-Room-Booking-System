@@ -714,7 +714,7 @@ function list_reservations()
 		}
 	
 
-	$users .= '<input type="button" class=" blue_button " id="reservation_details_button"></table>';
+	$users .= '</table><input type="button" class=" blue_button " id="reservation_details_button" value="Details">';
 
 	return($users);
 }
