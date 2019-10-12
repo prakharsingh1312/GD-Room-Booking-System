@@ -4,10 +4,10 @@ include_once('main.php');
 
 if(check_login() != true) { exit; }
 
-if(isset($_GET['roomdetail']))
+if(isset($_GET['reservation_details']))
 {
-	$room_id=mysqli_real_escape_string($dbconfig,$_POST['room_id']);
-	echo room_detail($room_id);
+	$reservation_id=mysqli_real_escape_string($dbconfig,$_POST['reservation_id']);
+	echo reservation_details($reservation_id);
 }
 else{
 	echo '<div class="box_div" id="reservation_details_div"></div>

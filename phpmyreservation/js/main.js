@@ -923,6 +923,9 @@ $(document).ready( function()
 		var array=this.id.val();
 		show_reservation_details(array); });
 	$(document).on('click', '#delete_group_button', function() { delete_group(); });
+	$(document).on('click', '#reservation_details_button', function() { reservation_details(); });
+	$(document).on('click', '#reservation_check_in_button', function() { reservation_check_in(); });
+	$(document).on('click', '#reservation_check_out_button', function() { reservation_check_out(); });
 	$(document).on('click', '#group_details_button', function() { group_details(); });
 	$(document).on('click', '#select_group_button', function() { select_group(); });
 	$(document).on('click', '#delete_member_button', function() { delete_member(); });
@@ -1177,7 +1180,24 @@ function delete_group(){
 	else{
 		notify('Please select a group.',4);
 	}
-}function delete_member(){
+}
+function reservation_details(){
+	if(typeof $('.reservation_details_radio:checked').val()!= 'undefined')
+		{
+			var delete_confirm=confirm('Are you sure?');
+			if (delete_confirm){
+	var reservation_id=$('.reservation_details_radio:checked').val();
+			$.post('see_reservations.php?reservation_details',{reservation_id:reservation_id},function(data){
+				$('#reservation_details_div').html(data);
+				input_focus('#reservation_details_div');
+			})
+		}
+		}
+	else{
+		notify('Please select a group.',4);
+	}
+}
+function delete_member(){
 	if(typeof $('.group_details_radio:checked').val()!= 'undefined')
 		{
 			var delete_confirm=confirm('Are you sure?');
