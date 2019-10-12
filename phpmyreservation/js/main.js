@@ -1189,11 +1189,11 @@ function reservation_details(){
 	var reservation_id=$('.reservation_details_radio:checked').val();
 			$.post('see_reservations.php?reservation_details',{reservation_id:reservation_id},function(data){
 				page_load();
-				div_hide('#reservation_details_div');
-				$('#reservation_details_div').html(data); 
-				div_fadein('#reservation_details_div');
+				div_hide('#reservation_details_div2');
+				$('#reservation_details_div2').html(data); 
+				div_fadein('#reservation_details_div2');
 				page_loaded('reservations');
-				input_focus('#reservation_details_div');
+				input_focus('#reservation_details_div2');
 			})
 		
 		}
