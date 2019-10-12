@@ -967,5 +967,12 @@ function reservation_details($reservation_id){
 	$return=$return.'</table></div>';
 	return $return;
 }
-
+function reservation_check_in($reservation_id){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"UPDATE ".global_mysqli_reservations_table." SET reservation_check_in=CURRENT_TIMESTAMP where reservation_id=$reservation_id");
+	if($query)
+		return 1;
+	else
+		return 0;
+}
 ?>

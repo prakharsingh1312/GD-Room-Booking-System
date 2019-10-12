@@ -1201,6 +1201,29 @@ function reservation_details(){
 		notify('Please select a group.',4);
 	}
 }
+function reservation_check_in(){
+	if(typeof $('.reservation_details_radio:checked').val()!= 'undefined')
+		{
+			
+			
+	var reservation_id=$('.reservation_details_radio:checked').val();
+			$.post('see_reservations.php?reservation_check_in',{reservation_id:reservation_id},function(data){
+				if(data==0)
+					notify('Error while marking check-in',4);
+				else
+				{page_load();
+				div_hide('#reservations_div');
+				$('#reservations_div').html(data); 
+				div_fadein('##reservations_div');
+				page_loaded('reservations');
+				input_focus('##reservations_div');}
+			})
+		
+		}
+	else{
+		notify('Please select a group.',4);
+	}
+}
 function delete_member(){
 	if(typeof $('.group_details_radio:checked').val()!= 'undefined')
 		{
