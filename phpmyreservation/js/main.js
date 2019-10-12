@@ -1191,7 +1191,7 @@ function reservation_details(){
 				page_load();
 				div_hide('#reservation_details_div');
 				$('#reservation_details_div').html(data); 
-				div_fadein('##reservation_details_div');
+				div_fadein('#reservation_details_div');
 				page_loaded('reservations');
 				input_focus('#reservation_details_div');
 			})
