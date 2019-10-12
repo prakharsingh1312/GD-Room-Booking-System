@@ -9,7 +9,7 @@ if(isset($_GET['reservation_details']))
 	$reservation_id=mysqli_real_escape_string($dbconfig,$_POST['reservation_id']);
 	echo reservation_details($reservation_id);
 }
-if(isset($_GET['reservation_check_in']))
+else if(isset($_GET['reservation_check_in']))
 {
 	$reservation_id=mysqli_real_escape_string($dbconfig,$_POST['reservation_id']);
 	if(reservation_check_in($reservation_id))
