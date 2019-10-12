@@ -1214,9 +1214,9 @@ function reservation_check_in(){
 				{page_load();
 				div_hide('#reservations_div');
 				$('#reservations_div').html(data); 
-				div_fadein('##reservations_div');
+				div_fadein('#reservations_div');
 				page_loaded('reservations');
-				input_focus('##reservations_div');}
+				input_focus('#reservations_div');}
 			})
 		
 		}
