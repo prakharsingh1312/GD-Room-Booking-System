@@ -12,16 +12,14 @@ if(isset($_GET['reservation_details']))
 else if(isset($_GET['reservation_check_in']))
 {
 	$reservation_id=mysqli_real_escape_string($dbconfig,$_POST['reservation_id']);
-	if(reservation_check_in($reservation_id))
-	{
-		echo '<div class="box_top_div">Upcoming Reservations</div><div class="box_body_div">';
-	echo list_reservations();
-	echo'
+	echo reservation_check_in($reservation_id);
 	
-	</div>';
-	}
-	else
-		echo 0;
+}
+else if(isset($_GET['reservation_check_out']))
+{
+	$reservation_id=mysqli_real_escape_string($dbconfig,$_POST['reservation_id']);
+	echo reservation_check_out($reservation_id);
+	
 }
 else{
 	echo '<div class="box_div" id="reservation_details_div2"><div class="box_top_div">Group Details</div><div class=box_body_div><br></div></div>
