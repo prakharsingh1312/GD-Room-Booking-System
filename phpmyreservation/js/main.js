@@ -1184,14 +1184,14 @@ function delete_group(){
 function reservation_details(){
 	if(typeof $('.reservation_details_radio:checked').val()!= 'undefined')
 		{
-			var delete_confirm=confirm('Are you sure?');
-			if (delete_confirm){
+			
+			
 	var reservation_id=$('.reservation_details_radio:checked').val();
 			$.post('see_reservations.php?reservation_details',{reservation_id:reservation_id},function(data){
 				$('#reservation_details_div').html(data);
 				input_focus('#reservation_details_div');
 			})
-		}
+		
 		}
 	else{
 		notify('Please select a group.',4);
