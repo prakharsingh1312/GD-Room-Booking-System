@@ -961,6 +961,7 @@ function reservation_details($reservation_id){
 	global $dbconfig;
 	$return='<div id="group_details" class="box_top_div">Group Details</div><div id="group_details_body" class="box_body_div"><table><tr><th>Name</th><th>Roll No.</th><th>Branch</th><th>Email</th><th>Mobile Number</th></tr>';
 	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_reservations_table.",".global_mysqli_group_members_table.",".global_mysqli_users_table.",".global_mysqli_branches_table." WHERE reservation_id=$reservation_id and user_id=member_user_id and reservation_group_id=group_id and branch_id=user_branch_id");
+	echo $query;
 	while($result=mysqli_fetch_array($query)){
 		$return=$return+'<tr><td>'.$result['user_name'].'</td><td>'.$result['user_roll_no'].'</td><td>'.$result['branch_code'].'</td><td>'.$result['user_email'].'</td><td>'.$result['user_mobile_no'].'</td></tr>';
 	}
