@@ -710,11 +710,11 @@ function list_reservations()
 	{
 		
 		$time="Time:".$user['reservation_time']."<br>".date("d-M-Y", strtotime($user['reservation_year']."W".$user['reservation_week']."-".$user['reservation_day']));
-		$users .= '<tr id="user_tr_' . $user['group_id'] . '"><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_id'] . '</label></td><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_name'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="button" class=" blue_button reservation_details_button" id="'.$user['reservation_id'].'" value="Details"></td></tr>';
+		$users .= '<tr id="user_tr_' . $user['group_id'] . '"><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_id'] . '</label></td><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_name'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td><input type="radio" class=" blue_button reservation_details_radio" id="'.$user['reservation_id'].'"></td></tr>';
 		}
 	
 
-	$users .= '</table>';
+	$users .= '<input type="button" class=" blue_button " id="reservation_details_button"></table>';
 
 	return($users);
 }

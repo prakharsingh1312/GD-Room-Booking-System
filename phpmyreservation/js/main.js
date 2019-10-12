@@ -928,6 +928,9 @@ $(document).ready( function()
 	$(document).on('click', '#delete_member_button', function() { delete_member(); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
 	$(document).on('click', '#change_user_permissions_button', function() { change_user_permissions(); });
+	$(document).on('click', '.check_availability_button', function() { 
+		var room_id = this.id.val();
+		check_availability(room_id); });
 	$(document).on('click', '.delete_user_reservations_button', function() { 
 		var array = this.id.split(':');
 		delete_user_reservation(array[1],array[2],array[3],array[4])});
@@ -1264,4 +1267,10 @@ function select_group(){
 			}
 	else
 		notify('Please select a group.',4);
+}
+function check_availability(room_id){
+	page_load('room_details');
+	div_hide('#room_detail_div');
+$.post('room.php?roomdetail',{week:week,day:day,time:time}, function(data) { $('#room_detail_div').html(data); div_fadein('#room_detail_div'); page_loaded('room_details'); });
+	
 }
