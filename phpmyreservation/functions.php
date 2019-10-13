@@ -1,4 +1,4 @@
-list<?php
+<?php
 include_once('config.php');
 // Configuration
 $dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli_password,global_mysqli_database)or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
