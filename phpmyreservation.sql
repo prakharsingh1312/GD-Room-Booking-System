@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 17, 2019 at 01:33 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.3.1
+-- Host: localhost
+-- Generation Time: Oct 13, 2019 at 10:04 AM
+-- Server version: 5.7.27-0ubuntu0.16.04.1
+-- PHP Version: 5.6.40-8+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -161,16 +159,18 @@ CREATE TABLE `phpmyreservation_reservations` (
   `reservation_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `reservation_price` float NOT NULL,
   `reservation_group_id` int(10) NOT NULL,
-  `reservation_room_id` int(3) NOT NULL
+  `reservation_room_id` int(3) NOT NULL,
+  `reservation_check_in` timestamp NULL DEFAULT NULL,
+  `reservation_check_out` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `phpmyreservation_reservations`
 --
 
-INSERT INTO `phpmyreservation_reservations` (`reservation_id`, `reservation_made_time`, `reservation_year`, `reservation_week`, `reservation_day`, `reservation_time`, `reservation_price`, `reservation_group_id`, `reservation_room_id`) VALUES
-(31, '2019-08-26 14:51:24', 2019, 35, 2, '08-10', 0, 7, 1),
-(45, '2019-08-29 07:09:40', 2019, 35, 5, '10-12', 0, 9, 7);
+INSERT INTO `phpmyreservation_reservations` (`reservation_id`, `reservation_made_time`, `reservation_year`, `reservation_week`, `reservation_day`, `reservation_time`, `reservation_price`, `reservation_group_id`, `reservation_room_id`, `reservation_check_in`, `reservation_check_out`) VALUES
+(31, '2019-08-26 14:51:24', 2019, 35, 2, '08-10', 0, 7, 1, '2019-10-12 11:26:44', '2019-10-12 11:32:20'),
+(45, '2019-08-29 07:09:40', 2019, 35, 5, '10-12', 0, 9, 7, '2019-10-12 11:32:12', '2019-10-12 11:32:16');
 
 -- --------------------------------------------------------
 
@@ -297,44 +297,36 @@ ALTER TABLE `phpmyreservation_users`
 --
 ALTER TABLE `phpmyreservation_branches`
   MODIFY `branch_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `phpmyreservation_configuration`
 --
 ALTER TABLE `phpmyreservation_configuration`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `phpmyreservation_groups`
 --
 ALTER TABLE `phpmyreservation_groups`
   MODIFY `group_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `phpmyreservation_group_members`
 --
 ALTER TABLE `phpmyreservation_group_members`
   MODIFY `member_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT for table `phpmyreservation_reservations`
 --
 ALTER TABLE `phpmyreservation_reservations`
   MODIFY `reservation_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
-
 --
 -- AUTO_INCREMENT for table `phpmyreservation_roomdetails`
 --
 ALTER TABLE `phpmyreservation_roomdetails`
   MODIFY `room_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 --
 -- AUTO_INCREMENT for table `phpmyreservation_users`
 --
 ALTER TABLE `phpmyreservation_users`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -25,6 +25,8 @@ else{
 	echo '<div class="box_div" id="reservation_details_div2"><div class="box_top_div">Group Details</div><div class=box_body_div><br></div></div>
 	<br><br><div class="box_div" id="reservations_div"><div class="box_top_div">Upcoming Reservations</div><div class="box_body_div">';
 	echo list_reservations();
+	echo "<a href='exportbookings.php' target='_blank'><button>Export Excel</button></a>";
+
 	echo'
 	
 	</div></div>

@@ -1,3 +1,4 @@
+
 <?php 
 
 include_once('main.php');
@@ -106,6 +107,7 @@ else
 -->
 <div id="system_configuration_form">
 <?php echo list_reservations() ?>
+<a href='exportbookings.php' target='_blank'><button>Export Excel</button></a>
 		</div> 
 
 		<p id="system_configuration_message_p"></p>
