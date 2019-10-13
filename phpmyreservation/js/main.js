@@ -1211,7 +1211,7 @@ function reservation_check_in(){
 				if(data==0)
 					notify('Error while marking check-in',4);
 				else
-				{showallreservations()che}
+				{showallreservations()}
 			})
 		
 		}
