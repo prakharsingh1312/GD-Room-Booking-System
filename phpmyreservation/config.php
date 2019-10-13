@@ -52,7 +52,14 @@ define('global_currency', '₹');
 define('global_weeks_forward', '2');
 
 // Possible reservation times. Use the same syntax as below (TimeFrom-TimeTo)
+if(isset($_SESSION['slots']))
+{
+	$global_times = array('08-09','09-10','10-11','11-12','12-13','13-14', '14-15','15-16', '16-17','17-18', '18-19','19-20');
+}
+else
+{
 $global_times = array('08-10', '10-12', '12-14', '14-16', '16-18', '18-20');
+}
 //Room Details Table
 
 ?>
