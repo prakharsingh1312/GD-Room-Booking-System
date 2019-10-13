@@ -8,7 +8,7 @@
 
 if(isset($_SESSION['logged_in']))
 {
-	echo ' | <a href="/">Home</a> | <a href="#help">Help</a> | <a href="#room">Room Details</a>';
+	echo ' | <a href="/roombook/phpmyreservation/">Home</a> | <a href="#help">Help</a> | <a href="#room">Room Details</a>';
 }
 
 ?>
