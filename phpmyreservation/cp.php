@@ -120,17 +120,19 @@ else
 
 ?>
 
+<!--
 	<h3>Your usage</h3>
 
 	<p class="smalltext_p">If you have used without making a reservation first, please click the button below. It can't be undone.</p>
 
-	<div id="usage_div"><?php echo get_usage(); ?></div>
+	<div id="usage_div"><?php //echo get_usage(); ?></div>
 
 	<p><input type="button" class="blue_button small_button" id="add_one_reservation_button" value="Add 1 to my reservations"></p>
 
 	<p id="usage_message_p"></p>
 
 	<hr>
+-->
 
 <?php
 
