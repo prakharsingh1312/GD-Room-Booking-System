@@ -74,7 +74,7 @@ else{
 			$vga=$noicon;
 		echo '
 		<td>'.$vga.'</td>
-		<td> <input type="button" class="blue_button check_availability_button" id="'.$rooms['room_id'].'" value="Check Availability"/>
+		<!--<td> <input type="button" class="blue_button check_availability_button" id="'.$rooms['room_id'].'" value="Check Availability"/></td>-->
 		</tr>';
 		
 		}
