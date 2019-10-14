@@ -41,7 +41,7 @@ else{
 		<th>Projector</th>
 		<th>HDMI</th>
 		<th>VGA</th>
-		<th>Availability</th>
+		<!--<th>Availability</th>-->
 		";
 		while($rooms = mysqli_fetch_array($query))
 		{
