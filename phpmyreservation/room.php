@@ -77,15 +77,15 @@ else{
 		echo '
 		<td>'.$vga.'</td>
 		';
-		$imgurl="img/rooms/".$rooms["imageurl"];
+		$imgurl="img/rooms/".$rooms["imageurl"].".jpg";
 		$abc='<a href="'.$imgurl.'" target="_blank"> <input type="button" class="blue_button" value="View Image"/> </a>';
 		echo '
 		<td>'. 
 			$abc
 			.'
 		</td>
-		</tr>';
-		
+		</tr>'
+;		
 		}
 	echo '</table></div></div><br><br>';
 
