@@ -30,7 +30,7 @@ else{
 	<br><br><div class="box_div" id="reservations_div"><div class="box_top_div">Upcoming Reservations</div><div class="box_body_div">
 	
 		<select name="floor" id="floor_selector" required>
-			<option value="">All</option>
+			<option value="All">All</option>
 			<option value="Ground">Ground</option>
 			<option value="First">First</option>
 			<option value="Second">Second</option>
