@@ -719,13 +719,13 @@ function list_reservations()
 	global $dbconfig;
 	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_groups_table . ",".global_mysqli_reservations_table.",".global_mysqli_room_details_table." WHERE group_id=reservation_group_id AND reservation_room_id=room_id ORDER BY reservation_year DESC,reservation_week DESC,reservation_time DESC,reservation_room_id,reservation_check_in DESC")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
-	$users = '<table id="users_table"><tr><th>ID</th><th>Name</th><th>Reservation</th><th>Room</th><th>Check In Time</th><th>Check Out Time</th><th></th></tr>';
+	$users = '<table id="users_table"><tr><th>ID</th><th>Name</th><th>Reservation</th><th>Room</th><th>Floor</th><th>Check In Time</th><th>Check Out Time</th><th></th></tr>';
 
 	while($user = mysqli_fetch_array($query))
 	{
 		
 		$time="Time:".$user['reservation_time']."<br>".date("d-M-Y", strtotime($user['reservation_year']."W".$user['reservation_week']."-".$user['reservation_day']));
-		$users .= '<tr id="user_tr_' . $user['group_id'] . '"><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_id'] . '</label></td><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_name'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td>'.$user['reservation_check_in'].'</td><td>'.$user['reservation_check_out'].'</td><td><input type="radio" class=" blue_button reservation_details_radio" id="'.$user['reservation_id'].'" value="'.$user['reservation_id'].'" name="reservation_details_radio"></td></tr>';
+		$users .= '<tr id="user_tr_' . $user['group_id'] . '"><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_id'] . '</label></td><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_name'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td>'.$user['Floor'].'</td><td>'.$user['reservation_check_in'].'</td><td>'.$user['reservation_check_out'].'</td><td><input type="radio" class=" blue_button reservation_details_radio" id="'.$user['reservation_id'].'" value="'.$user['reservation_id'].'" name="reservation_details_radio"></td></tr>';
 		}
 	
 
@@ -735,6 +735,31 @@ function list_reservations()
 
 	return($users);
 }
+
+function list_reservations_floor($floor)
+{
+	global $dbconfig;
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_groups_table . ",".global_mysqli_reservations_table.",".global_mysqli_room_details_table." WHERE group_id=reservation_group_id AND reservation_room_id=room_id ORDER BY reservation_year DESC,reservation_week DESC,reservation_time DESC,reservation_room_id,reservation_check_in DESC")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+
+	$users = '<table id="users_table"><tr><th>ID</th><th>Name</th><th>Reservation</th><th>Room</th><th>Floor</th><th>Check In Time</th><th>Check Out Time</th><th></th></tr>';
+
+	while($user = mysqli_fetch_array($query))
+	{
+		if ($user['Floor'] != $floor) continue;
+		
+		$time="Time:".$user['reservation_time']."<br>".date("d-M-Y", strtotime($user['reservation_year']."W".$user['reservation_week']."-".$user['reservation_day']));
+		$users .= '<tr id="user_tr_' . $user['group_id'] . '"><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_id'] . '</label></td><td><label for="user_radio_' . $user['group_id'] . '">' . $user['group_name'] . '</label></td><td>' . $time . '</td>	<td>'.$user['room_name'].'</td><td>'.$user['Floor'].'</td><td>'.$user['reservation_check_in'].'</td><td>'.$user['reservation_check_out'].'</td><td><input type="radio" class=" blue_button reservation_details_radio" id="'.$user['reservation_id'].'" value="'.$user['reservation_id'].'" name="reservation_details_radio"></td></tr>';
+		}
+	
+
+	$users .= '</table><br><br><input type="button" class=" blue_button " id="reservation_details_button" value="Details">
+	&nbsp;&nbsp;&nbsp;<input type="button" class=" blue_button " id="reservation_check_in_button" value="Mark Check In">
+	&nbsp;&nbsp;&nbsp;<input type="button" class=" button " id="reservation_check_out_button" value="Mark Check Out">';
+
+	return($users);
+}
+
+
 function list_branches_option(){
 	global $dbconfig;
 	$return="";
