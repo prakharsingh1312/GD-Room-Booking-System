@@ -3,6 +3,7 @@
 ### IF YOU ARE GOING TO USE THE CHARACTER ' IN ANY OF THE OPTIONS, ESCAPE IT LIKE THIS: \' ###
 
 // mysqli details
+date_default_timezone_set('Asia/Kolkata');
 define('global_mysqli_server', 'localhost');
 define('global_mysqli_user', 'root');
 define('global_mysqli_password', '');
