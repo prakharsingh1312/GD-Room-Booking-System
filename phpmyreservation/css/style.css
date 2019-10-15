@@ -625,3 +625,9 @@ hr.thick_hr
 	-o-transition: opacity 0.25s ease-in;
 	-ms-transition: opacity 0.25s ease-in;
 }
+div#reservations_div{
+	width:1000px;
+}
+div#reservation_details_div2{
+	width: 600px;
+}
