@@ -6,7 +6,7 @@
 
 <?php
 
-if(isset($_SESSION['logged_in']))
+if(isset($_SESSION['logged_in']) && !isset($_SESSION['staff']))
 {
 	echo ' | <a href="/roombook/phpmyreservation/">Home</a> | <a href="#help">Help</a> | <a href="#room">Room Details</a>';
 }
@@ -28,13 +28,17 @@ if(isset($_SESSION['logged_in']))
 
 <?php
 
-if(isset($_SESSION['logged_in']))
+if(isset($_SESSION['logged_in']) && !isset($_SESSION['staff']))
 {
-	if($_SESSION['user_is_admin']){
+	if($_SESSION['user_is_admin'] ){
 		echo '<a href="#ma">See Reservations</a> | ';
 	}
 	echo '<a href="#cp">Control panel</a> | <a href="#logout">Log out</a>';
 }
+	
+	elseif(isset($_SESSION['staff'])){
+		echo '<a href="#ma">See Reservations</a> | ';
+		echo '<a href="#cp">Control panel</a> | <a href="#logout">Log out</a>';}
 else
 {
 	echo 'Not logged in';

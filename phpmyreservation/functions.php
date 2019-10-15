@@ -151,11 +151,12 @@ function login($user_email, $user_password, $user_remember)
 			$user = mysqli_fetch_array($query);
 
 			$_SESSION['user_id'] = $user['user_id'];
-			$_SESSION['user_is_admin'] = $user['user_is_admin'];
+			$_SESSION['user_is_admin'] = $user['user_is_admin']==1?1:0;
 			$_SESSION['user_email'] = $user['user_email'];
 			$_SESSION['user_name'] = $user['user_name'];
 			$_SESSION['user_reminder'] = $user['user_reservation_reminder'];
 			$_SESSION['logged_in'] = '1';
+			
 
 			if($user_remember == '1')
 			{
@@ -164,7 +165,10 @@ function login($user_email, $user_password, $user_remember)
 				setcookie(global_cookie_prefix . '_user_email', $user['user_email'], time() + 3600 * 24 * intval(global_remember_login_days));
 				setcookie(global_cookie_prefix . '_user_password', $user_password, time() + 3600 * 24 * intval(global_remember_login_days));
 			}
-
+			if($user['user_is_admin']==2){
+				$_SESSION['staff']=1;
+				return (2);
+			}
 			return(1);
 	}
 }
