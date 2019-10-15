@@ -374,16 +374,22 @@ function make_reservation($week, $day, $time,$room_id)
 	$price = global_price;
 	$query=mysqli_query($dbconfig,"SELECT member_user_id FROM ".global_mysqli_group_members_table." WHERE member_group_id={$_SESSION['selected_group']}");
 	$flag=0;
+	$flag1=0;
 	while($result=mysqli_fetch_array($query))
 	{
 		$check=mysqli_query($dbconfig,"SELECT count(*) from ".global_mysqli_reservations_table.",".global_mysqli_group_members_table." WHERE member_user_id={$result['member_user_id']} and member_group_id=reservation_group_id and reservation_week>=".global_week_number." and reservation_day>=".global_day_number." group by member_user_id");
 		$res=mysqli_fetch_array($check);
 		if($res['count(*)']==2)
 		{
-			$flag=1;
-			break;
+			return('One or more members from your group has already made 2 reservations.');
 		}
-		
+		$check2=mysqli_query($dbconfig,"SELECT * from ".global_mysqli_reservations_table.",".global_mysqli_group_members_table." WHERE member_user_id={$result['member_user_id']} and member_group_id=reservation_group_id and reservation_week=$week and reservation_day=$day and reservation_time='$time'");
+		if(mysqli_num_rows($check2)>0){
+			return('One or more members from your group has already booked a slot for this time of the week.');
+		}
+		$t=(string)(((int)substr($time,0,2))-2).'-'.(string)(((int)substr($time,3,2))-2);
+		$t1=(string)(((int)substr($time,0,2))+2).'-'.(string)(((int)substr($time,3,2))+2);
+		$check3=mysqli_query($dbconfig,"SELECT * from ".global_mysqli_reservations_table.",".global_mysqli_group_members_table.",".global_mysqli_room_details_table." WHERE reservation_room_id=$room_id and reservation_group_id=member_group_id and reservation_week=$week and reservation_day=$day and (reservation_time='$t' or reservation_time='$t1' and member_user_id={$result['member_user_id']}");
 	}
 	if($week == '0' && $day == '0' && $time == '0')
 	{
@@ -398,9 +404,6 @@ function make_reservation($week, $day, $time,$room_id)
 	elseif($week > global_week_number + global_weeks_forward && $_SESSION['user_is_admin'] != '1')
 	{
 		return('You can only reserve ' . global_weeks_forward . ' weeks forward in time');
-	}
-	elseif($flag==1){
-		return('One or more members from your group has already made 2 reservations.');
 	}
 	else
 	{
