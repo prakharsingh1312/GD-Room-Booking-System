@@ -14,11 +14,24 @@ if(check_login() != true) { exit; }
 
 <ul>
 <li><b>Can I make more than one reservation?</b><br>No a user can make only one reservation at a time.</li>
-<li><b>How many people can accompany me to the discussion room?</b><br>The maximun capacity if a discussion room is:</li>
-	
+<li><b>Where can I find all the details of each discussion room?</b><br>All the details of each room is given in the <a href="#room">room details</a> page </li>
+<li><b>What are the minimum number of people who can book a discussion room?</b><br>
+	4 </li>
+
 </ul>
 
-<h3>Other</h3>
+<h3>Groups</h3>
+<b>Creating a group</b>
+<li>To create a new group, go to <a href="">home</a> and under 'Groups', type in a name for the group and press 'Create Group'. The user who creates the group, will be made the admin of the group.</li>
+
+<li>
+	<b>Adding new members to the group</b>
+Please note that <b>only the group admin can add new members</b>
+Under <b>Groups</b>, highlight the radio button in front of the group in which you wish to add new members, and then click <b>Group Details</b> 
+</li>
+
+
+<h3>Account</h3>
 
 <ul>
 <li><b>How do I change my name, email and/or password?</b><br>You can do that in the <a href="#cp">control panel</a>.</li>
