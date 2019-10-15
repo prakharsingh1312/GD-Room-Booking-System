@@ -1103,10 +1103,14 @@ function all_reservations(){
 		<td rowspan="'.$group_size[$user['group_id']].'">'.$user['reservation_check_out'].'</td>
 		';
 	$query3=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_reservations_table.",".global_mysqli_group_members_table.",".global_mysqli_users_table.",".global_mysqli_branches_table." WHERE reservation_id={$user['reservation_id']} and user_id=member_user_id and reservation_group_id=member_group_id and branch_id=user_branch_id");
+		$i=0;
 	while($result=mysqli_fetch_array($query3)){
-		$users=$users.'<td>'.$result['user_name'].'</td><td>'.$result['user_roll_no'].'</td><td>'.$result['branch_code'].'</td><td>'.$result['user_email'].'</td><td>'.$result['user_mobile_no'].'</td></tr><tr>';
-	}
+		if($i!=0)
 		$users.='</tr>';
+		$i++;
+		$users=$users.'<td>'.$result['user_name'].'</td><td>'.$result['user_roll_no'].'</td><td>'.$result['branch_code'].'</td><td>'.$result['user_email'].'</td><td>'.$result['user_mobile_no'].'</td></tr>';
+	}
+		
 		}
 	
 
