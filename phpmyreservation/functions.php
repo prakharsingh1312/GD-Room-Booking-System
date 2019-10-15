@@ -1081,7 +1081,7 @@ function change_detail($detail,$room_id,$state){
 function all_reservations(){
 	
 	global $dbconfig;
-	$query1=mysqli_query($dbconfig,'SELECT group_id,count(*) from '.global_mysqli_group_members_table.' GROUP by member_group_id');
+	$query1=mysqli_query($dbconfig,"SELECT group_id,count(*) from ".global_mysqli_group_members_table." GROUP by member_group_id");
 	$group_size=array();
 	while($result=mysqli_fetch_array($query1)){
 		$group_size[$result['member_group_id']]=$result['count(*)'];
