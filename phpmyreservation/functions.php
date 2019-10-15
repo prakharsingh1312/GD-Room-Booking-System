@@ -389,7 +389,7 @@ function make_reservation($week, $day, $time,$room_id)
 		}
 		$t=(string)(((int)substr($time,0,2))-2).'-'.(string)(((int)substr($time,3,2))-2);
 		$t1=(string)(((int)substr($time,0,2))+2).'-'.(string)(((int)substr($time,3,2))+2);
-		$check3=mysqli_query($dbconfig,"SELECT * from ".global_mysqli_reservations_table.",".global_mysqli_group_members_table.",".global_mysqli_room_details_table." WHERE reservation_room_id=$room_id and reservation_group_id=member_group_id and reservation_week=$week and reservation_day=$day and (reservation_time='$t' or reservation_time='$t1' and member_user_id={$result['member_user_id']}");
+		$check3=mysqli_query($dbconfig,"SELECT * from ".global_mysqli_reservations_table.",".global_mysqli_group_members_table.",".global_mysqli_room_details_table." WHERE reservation_room_id=$room_id and reservation_group_id=member_group_id and reservation_week=$week and reservation_day=$day and (reservation_time='$t' or reservation_time='$t1') and member_user_id={$result['member_user_id']}");
 		if(mysqli_num_rows($check3)>0)
 			return('You cannot book consecutive slots in the same room.');
 	}
