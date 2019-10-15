@@ -935,8 +935,8 @@ require_once "Mail.php";
 
 $from = 'prakharsingh@gmail.com';
 $to = $email;
-$subject = 'Signup | Verification'; // Give the email a subject
-$body = $result['user_name'].' has invited you to join '.$result['group_name'].'.
+$subject = 'INVITATION TO JOIN '.$result['group_name']; // Give the email a subject
+$body = $result['user_name'].' has invited you to join the group "'.$result['group_name'].'".
  
  
  
