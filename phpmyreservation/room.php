@@ -34,7 +34,7 @@ else{
 	if(mysqli_num_rows($query) > 0)
 	{
 		echo "
-		<table id='users_table'>
+		<table id='users_table' style='text-align: center'>
 		<th>Room Name</th>
 		<th>Room Number</th>
 		<th>Floor</th>
@@ -43,13 +43,13 @@ else{
 		<th>Projector</th>
 		<th>HDMI</th>
 		<th>VGA</th>
-		<!--<th>Availability</th>-->
+		
 		";
 		while($rooms = mysqli_fetch_array($query))
 		{
 			
 		echo '<tr><td>'.$rooms['room_name'].'</td>
-		<td>'.$rooms['room_id'].'</td>
+		<td>'.$rooms['room_code'].'</td>
 		<td>'.$rooms['Floor'].'</td>
 		<td>'.$rooms['Seating_Capacity'].'</td>';
 		if (strcasecmp($rooms['TV'],"yes")==0) 
@@ -76,7 +76,14 @@ else{
 			$vga='<i class="fa fa-times room_detail_icon" id="VGA:'.$rooms['room_id'].':YES" style="color: red;"/>';
 		echo '
 		<td>'.$vga.'</td>
-		<!--<td> <input type="button" class="blue_button check_availability_button" id="'.$rooms['room_id'].'" value="Check Availability"/></td>-->
+		';
+		$imgurl="img/rooms/".$rooms["imageurl"];
+		$abc='<a href="'.$imgurl.'" target="_blank"> <input type="button" class="blue_button" value="View Image"/> </a>';
+		echo '
+		<td>'. 
+			$abc
+			.'
+		</td>
 		</tr>';
 		
 		}

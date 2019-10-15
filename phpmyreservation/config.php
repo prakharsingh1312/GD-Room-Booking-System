@@ -24,7 +24,7 @@ define('global_organization', 'Nava Nalanda Central Library');
 
 // Secret code. Can be used to only allow certain people to create a user
 // Set to '0' to disable
-define('global_secret_code', '1234');
+define('global_secret_code', '0');
 
 // Email address to webmaster. Shown to users that want to know the secret code
 // To avoid spamming, JavaScript & Base64 is used to show email addresses when not logged in
@@ -50,7 +50,7 @@ define('global_url', 'http://146.148.48.62/roombook/phpmyreservation/');
 define('global_currency', '₹');
 
 // How many weeks forward in time to allow reservations
-define('global_weeks_forward', '2');
+define('global_weeks_forward', '1');
 
 // Possible reservation times. Use the same syntax as below (TimeFrom-TimeTo)
 if(isset($_SESSION['slots']))
