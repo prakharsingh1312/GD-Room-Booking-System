@@ -926,6 +926,41 @@ function invite_user($group_id,$email,$rollno){
 			{
 				$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_group_members_table." (member_group_id,member_user_id) VALUES ($group_id,$id)");
 				if($query)
+					$query1=mysqli_query($dbconfig,'SELECT * FROM '.global_mysqli_groups_table.",".global_mysqli_users_table." WHERE group_admin_id=user_id and group_id=$group_id");
+				$result=mysqli_fetch_array($query);
+				
+$headers = 'From:gdroombooking@thapar.edu' . "\r\n"; // Set from headers
+require_once "Mail.php";
+
+$from = 'prakharsingh@gmail.com';
+$to = $email;
+$subject = 'Signup | Verification'; // Give the email a subject
+$body = $result['user_name'].' has invited you to join '.$result['group_name'].'.
+ 
+ 
+ 
+ 
+Please click this link to accept or reject this invite:
+http://146.148.48.62/roombook/phpmyreservation/; // Our message above including the link';
+
+$headers = array(
+    'From' => $from,
+    'To' => $to,
+    'Subject' => $subject
+);
+
+$smtp = Mail::factory('smtp', array(
+        'host' => 'ssl://smtp.gmail.com',
+        'port' => '465',
+        'auth' => true,
+        'username' => 'prakharsingh13@gmail.com',
+        'password' => 'jangipur13'
+    ));
+
+$mail = $smtp->send($to, $headers, $body);
+if (PEAR::isError($mail)) {
+      echo("<scrpit type='text/javascript'>alert('" . $mail->getMessage() . "')</script>");}
+		
 					return 1;
 			}
 		}
