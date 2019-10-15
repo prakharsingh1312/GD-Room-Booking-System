@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2.1
--- http://www.phpmyadmin.net
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 15, 2019 at 11:45 AM
--- Server version: 5.7.27-0ubuntu0.16.04.1
--- PHP Version: 5.6.40-8+ubuntu16.04.1+deb.sury.org+1
+-- Host: 127.0.0.1
+-- Generation Time: Oct 15, 2019 at 10:54 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -36,27 +38,28 @@ CREATE TABLE `gd_rooms_facility_detail` (
   `HDMI` varchar(3) CHARACTER SET utf8 DEFAULT NULL,
   `VGA` varchar(3) CHARACTER SET utf8 DEFAULT NULL,
   `STATUS` varchar(1) NOT NULL DEFAULT 'Y',
-  `room_code` varchar(11) NOT NULL
+  `room_code` varchar(11) NOT NULL,
+  `imageurl` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `gd_rooms_facility_detail`
 --
 
-INSERT INTO `gd_rooms_facility_detail` (`room_name`, `room_id`, `Floor`, `TV`, `Projector`, `Seating_Capacity`, `HDMI`, `VGA`, `STATUS`, `room_code`) VALUES
-('Ganga', 1, 'Ground', 'Yes', 'No', 8, 'NO', 'YES', 'Y', 'GD-01'),
-('Alaknanda', 2, 'Fourth', 'no', 'no', 8, 'no', 'yes', 'Y', 'GD-03'),
-('Yamuna', 3, 'First', 'No', 'Yes', 8, 'NO', 'NO', 'Y', 'GD-02'),
-('Godavari', 4, 'First', 'Yes', 'No', 8, 'YES', 'NO', 'Y', 'GD-04'),
-('Cauvery', 5, 'First', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-05'),
-('Brahamputra', 6, 'Second', 'No', 'Yes', 8, 'NO', 'NO', 'Y', 'GD-06'),
-('Krishna', 7, 'Second', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-07'),
-('Narmada', 9, 'Second', 'Yes', 'No', 8, 'NO', 'YES', 'Y', 'GD-09'),
-('Saraswati', 10, 'Third', 'No', 'Yes', 8, 'YES', 'NO', 'Y', 'GD-10'),
-('Sabarmati', 11, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-11'),
-('Beas', 12, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-12'),
-('Chenab', 13, 'Third', 'Yes', 'No', 8, 'NO', 'YES', 'Y', 'GD-13'),
-('Jhelam', 14, 'Third', 'Yes', 'No', 8, 'YES', 'YES', 'Y', 'GD-14');
+INSERT INTO `gd_rooms_facility_detail` (`room_name`, `room_id`, `Floor`, `TV`, `Projector`, `Seating_Capacity`, `HDMI`, `VGA`, `STATUS`, `room_code`, `imageurl`) VALUES
+('Ganga', 1, 'Ground', 'Yes', 'No', 8, 'NO', 'YES', 'Y', 'GD-01', ''),
+('Alaknanda', 2, 'Fourth', 'no', 'no', 8, 'no', 'yes', 'Y', 'GD-03', ''),
+('Yamuna', 3, 'First', 'No', 'Yes', 8, 'NO', 'NO', 'Y', 'GD-02', ''),
+('Godavari', 4, 'First', 'Yes', 'No', 8, 'YES', 'NO', 'Y', 'GD-04', ''),
+('Cauvery', 5, 'First', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-05', ''),
+('Brahamputra', 6, 'Second', 'No', 'Yes', 8, 'NO', 'NO', 'Y', 'GD-06', ''),
+('Krishna', 7, 'Second', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-07', ''),
+('Narmada', 9, 'Second', 'Yes', 'No', 8, 'NO', 'YES', 'Y', 'GD-09', ''),
+('Saraswati', 10, 'Third', 'No', 'Yes', 8, 'YES', 'NO', 'Y', 'GD-10', ''),
+('Sabarmati', 11, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-11', ''),
+('Beas', 12, 'Third', 'No', 'No', 8, 'NO', 'NO', 'Y', 'GD-12', ''),
+('Chenab', 13, 'Third', 'Yes', 'No', 8, 'NO', 'YES', 'Y', 'GD-13', ''),
+('Jhelam', 14, 'Third', 'Yes', 'No', 8, 'YES', 'YES', 'Y', 'GD-14', '');
 
 -- --------------------------------------------------------
 
@@ -180,7 +183,6 @@ INSERT INTO `phpmyreservation_reservations` (`reservation_id`, `reservation_made
 (31, '2019-08-26 14:51:24', 2019, 35, 2, '08-10', 0, 7, 1, '2019-10-12 11:26:44', '2019-10-12 11:32:20'),
 (45, '2019-08-29 07:09:40', 2019, 35, 5, '10-12', 0, 9, 7, '2019-10-13 07:12:26', '2019-10-12 11:32:16'),
 (49, '2019-10-14 05:07:10', 2019, 42, 3, '08-10', 0, 7, 6, '2019-10-14 05:29:40', '2019-10-14 05:07:51'),
-(54, '2019-10-15 06:14:29', 2019, 42, 2, '08-10', 0, 8, 2, NULL, NULL),
 (51, '2019-10-14 05:41:23', 2019, 42, 1, '12-14', 0, 11, 1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -311,36 +313,44 @@ ALTER TABLE `phpmyreservation_users`
 --
 ALTER TABLE `phpmyreservation_branches`
   MODIFY `branch_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `phpmyreservation_configuration`
 --
 ALTER TABLE `phpmyreservation_configuration`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `phpmyreservation_groups`
 --
 ALTER TABLE `phpmyreservation_groups`
   MODIFY `group_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT for table `phpmyreservation_group_members`
 --
 ALTER TABLE `phpmyreservation_group_members`
   MODIFY `member_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
 -- AUTO_INCREMENT for table `phpmyreservation_reservations`
 --
 ALTER TABLE `phpmyreservation_reservations`
   MODIFY `reservation_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
 --
 -- AUTO_INCREMENT for table `phpmyreservation_roomdetails`
 --
 ALTER TABLE `phpmyreservation_roomdetails`
   MODIFY `room_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
 -- AUTO_INCREMENT for table `phpmyreservation_users`
 --
 ALTER TABLE `phpmyreservation_users`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
