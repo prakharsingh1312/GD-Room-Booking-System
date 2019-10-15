@@ -926,7 +926,7 @@ function invite_user($group_id,$email,$rollno){
 			{
 				$query=mysqli_query($dbconfig,"INSERT INTO ".global_mysqli_group_members_table." (member_group_id,member_user_id) VALUES ($group_id,$id)");
 				if($query)
-					$query1=mysqli_query($dbconfig,'SELECT * FROM '.global_mysqli_groups_table.",".global_mysqli_users_table." WHERE group_admin_id=user_id and group_id=$group_id");
+				{$query1=mysqli_query($dbconfig,'SELECT * FROM '.global_mysqli_groups_table.",".global_mysqli_users_table." WHERE group_admin_id=user_id and group_id=$group_id");
 				$result=mysqli_fetch_array($query);
 				
 $headers = 'From:gdroombooking@thapar.edu' . "\r\n"; // Set from headers
@@ -963,7 +963,7 @@ if (PEAR::isError($mail)) {
 		
 					return 1;
 			}
-		}
+		}}
 				
 		}
 	}
