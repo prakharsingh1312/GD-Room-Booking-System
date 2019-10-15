@@ -1106,7 +1106,7 @@ function all_reservations(){
 	while($result=mysqli_fetch_array($query3)){
 		$users=$users.'<td>'.$result['user_name'].'</td><td>'.$result['user_roll_no'].'</td><td>'.$result['branch_code'].'</td><td>'.$result['user_email'].'</td><td>'.$result['user_mobile_no'].'</td></tr><tr>';
 	}
-		echo'</tr>';
+		$users.='</tr>';
 		}
 	
 
