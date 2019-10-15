@@ -28,17 +28,13 @@ if(isset($_SESSION['logged_in']))
 
 <?php
 
-if(isset($_SESSION['logged_in']) && !isset($_SESSION['staff']))
+if(isset($_SESSION['logged_in']))
 {
-	if($_SESSION['user_is_admin'] ){
+	if($_SESSION['user_is_admin'] || isset($_SESSION['staff'])){
 		echo '<a href="#ma">See Reservations</a> | ';
 	}
 	echo '<a href="#cp">Control panel</a> | <a href="#logout">Log out</a>';
 }
-	
-	elseif(isset($_SESSION['staff'])){
-		echo '<a href="#ma">See Reservations</a> | ';
-		echo '<a href="#cp">Control panel</a> | <a href="#logout">Log out</a>';}
 else
 {
 	echo 'Not logged in';
