@@ -287,8 +287,8 @@ function login()
 		else if(data== 2)
 			{
 				input_focus();
-			setTimeout(function() { window.location.replace('.'); }, 1000);
-				showallreservations();
+			
+				showallreservations();	
 			}
 		else
 		{
