@@ -372,7 +372,7 @@ function make_reservation($week, $day, $time,$room_id)
 	$user_email = $_SESSION['user_email'];
 	$user_name = $_SESSION['user_name'];
 	$price = global_price;
-	$query=mysqli_query($dbconfig,"SELECT member_user_id FROM".global_mysqli_group_members_table." WHERE member_group_id={$_SESSION['selected_group']}");
+	$query=mysqli_query($dbconfig,"SELECT member_user_id FROM ".global_mysqli_group_members_table." WHERE member_group_id={$_SESSION['selected_group']}");
 	$flag=0;
 	while($result=mysqli_fetch_array($query))
 	{
