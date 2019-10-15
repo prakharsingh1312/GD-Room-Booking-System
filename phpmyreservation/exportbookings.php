@@ -14,7 +14,7 @@ $dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli
 
 	$query = mysqli_query($dbconfig,"SELECT * FROM `phpmyreservation_groups`,`phpmyreservation_reservations`,`phpmyreservation_roomdetails` WHERE group_id=reservation_group_id AND reservation_room_id=room_id ORDER BY reservation_year DESC,reservation_week DESC,reservation_time DESC,reservation_room_id,reservation_check_in DESC")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
-	$users = '<table id="users_table" style="display: none"><tr><th>ID</th><th>Name</th><th>Reservation</th><th>Room</th><th>Check In Time</th><th>Check Out Time</th><th></th></tr>';
+	$users = '<table id="users_table" ><tr><th>ID</th><th>Name</th><th>Members</th><th>Reservation</th><th>Room</th><th>Check In Time</th><th>Check Out Time</th><th></th></tr>';
 
 	while($user = mysqli_fetch_array($query))
 	{
@@ -60,7 +60,7 @@ $dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli
 		
 		";
 		?>
-		$("#button-a").trigger('click');
+		// $("#button-a").trigger('click');
 </script>
 </body>
 </html>
