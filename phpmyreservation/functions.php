@@ -820,7 +820,7 @@ function show_groups(){
 		$result3=mysqli_fetch_array($q2);
 		$return=$return."<tr><td>".$result['group_id']."</td><td>".$result['group_name']."</td><td>".$result2['count(*)'];
 		if($result3['count(*)']>0)
-			$return=$return.' ('.$result2['count(*)'].' pending)';
+			$return=$return.' ('.$result3['count(*)'].' pending)';
 		$return=$return.'</td><td><input type="radio" name="group_radio" class="group_radio" id="group_radio_' . $result['group_id'] . '" value="' . $result['group_id'] . '"></td></tr>';
 	}
 	$return=$return.'</table><input type="button" class="blue_button" id="group_details_button" value="Group Details">
