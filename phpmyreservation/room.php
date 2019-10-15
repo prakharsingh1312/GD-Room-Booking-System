@@ -5,10 +5,12 @@ include_once('main.php');
 if(check_login() != true) { exit; }
 $yesicon='<i class="fa fa-check" style="color: green;"/>';
 $noicon='<i class="fa fa-times" style="color: red;"/>';
-if(isset($_GET['roomdetail']))
+if(isset($_GET['changedetail']) )
 {
 	$room_id=mysqli_real_escape_string($dbconfig,$_POST['room_id']);
-	echo room_detail($room_id);
+	$detail=mysqli_real_escape_string($dbconfig,$_POST['detail']);
+	$state=mysqli_real_escape_string($dbconfig,$_POST['state']);
+	echo change_detail($detail,$room_id,$state);
 }
 else{
 	$query = mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_room_details_table." ORDER BY room_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
@@ -51,27 +53,27 @@ else{
 		<td>'.$rooms['Floor'].'</td>
 		<td>'.$rooms['Seating_Capacity'].'</td>';
 		if (strcasecmp($rooms['TV'],"yes")==0) 
-			$tv=$yesicon; 
+			$tv='<i class="fa fa-check room_detail_icon" id="TV:'.$rooms['room_id'].':NO" style="color: green;"/>'; 
 		else 
-			$tv=$noicon;
+			$tv='<i class="fa fa-times room_detail_icon" id="TV:'.$rooms['room_id'].':YES" style="color: red;"/>';
 		echo '
 		<td>'.$tv.'</td>';
 		if (strcasecmp($rooms['Projector'],"yes")==0) 
-			$proj=$yesicon; 
+			$proj='<i class="fa fa-check room_detail_icon" id="Projector:'.$rooms['room_id'].':NO" style="color: green;"/>'; 
 		else 
-			$proj=$noicon;
+			$proj='<i class="fa fa-times room_detail_icon" id="Projector:'.$rooms['room_id'].':YES" style="color: red;"/>';
 		echo '
 		<td>'.$proj.'</td>';
 		if (strcasecmp($rooms['HDMI'],"yes")==0) 
-			$hdmi=$yesicon; 
+			$hdmi='<i class="fa fa-check room_detail_icon" id="HDMI:'.$rooms['room_id'].':NO" style="color: green;"/>'; 
 		else 
-			$hdmi=$noicon;
+			$hdmi='<i class="fa fa-times room_detail_icon" id="HDMI:'.$rooms['room_id'].':YES" style="color: red;"/>';
 		echo '
 		<td>'.$hdmi.'</td>';
 		if (strcasecmp($rooms['VGA'],"yes")==0) 
-			$vga=$yesicon;
+			$vga='<i class="fa fa-check room_detail_icon" id="VGA:'.$rooms['room_id'].':NO" style="color: green;"/>';
 		else 
-			$vga=$noicon;
+			$vga='<i class="fa fa-times room_detail_icon" id="VGA:'.$rooms['room_id'].':YES" style="color: red;"/>';
 		echo '
 		<td>'.$vga.'</td>
 		<!--<td> <input type="button" class="blue_button check_availability_button" id="'.$rooms['room_id'].'" value="Check Availability"/></td>-->

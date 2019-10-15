@@ -1019,12 +1019,23 @@ function reservation_check_in($reservation_id){
 		return 1;
 	else
 		return 0;
-}function reservation_check_out($reservation_id){
+}
+function reservation_check_out($reservation_id){
 	global $dbconfig;
 	$query=mysqli_query($dbconfig,"UPDATE ".global_mysqli_reservations_table." SET reservation_check_out=CURRENT_TIMESTAMP where reservation_id=$reservation_id");
 	if($query)
 		return 1;
 	else
 		return 0;
+}
+function change_detail($detail,$room_id,$state){
+	if($_SESSION['user_is_admin']){
+	global $dbconfig;
+	$query=mysqli_query($dbconfig,"UPDATE ".global_mysqli_room_details_table." SET $detail='$state' WHERE room_id=$room_id");
+	if($query)
+		return 'Detail altered.';
+	}
+	else
+		return;
 }
 ?>

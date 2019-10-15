@@ -929,6 +929,9 @@ $(document).ready( function()
 	$(document).on('click', '#group_details_button', function() { group_details(); });
 	$(document).on('click', '#select_group_button', function() { select_group(); });
 	$(document).on('click', '#delete_member_button', function() { delete_member(); });
+	$(document).on('click', '.room_detail_icon', function() { 
+		var array = this.id.split(':');
+		change_detail(array[0],array[1],array[2]); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
 	$(document).on('click', '#floor_selector_button', function() { 
 		select_floor(); });
@@ -1348,4 +1351,11 @@ function select_floor(){
 				div_fadein('#floor_selector_div');
 		});
 	}
+}
+function change_detail(param,room_id,state){
+	$.post('room.php?changedetail',{detail:param,room_id:room_id,state:state},function(data){
+		
+		showroom();
+		notify(data,4);
+	});
 }
