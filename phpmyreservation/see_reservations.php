@@ -21,7 +21,7 @@ else if(isset($_GET['reservation_check_out']))
 	echo reservation_check_out($reservation_id);
 	
 }
-if(isset($_GET['floor']))
+else if(isset($_GET['floor']))
 	{
 		echo list_reservations_floor($_POST['floor']);
 	}
