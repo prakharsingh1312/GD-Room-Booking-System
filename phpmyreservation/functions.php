@@ -372,7 +372,19 @@ function make_reservation($week, $day, $time,$room_id)
 	$user_email = $_SESSION['user_email'];
 	$user_name = $_SESSION['user_name'];
 	$price = global_price;
-
+	$query=mysqli_query($dbconfig,"SELECT member_user_id FROM".global_mysqli_group_members_table." WHERE groupz_id={$_SESSION['selected_group']}");
+	$flag=0;
+	while($result=mysqli_fetch_array($query))
+	{
+		$check=mysqli_query($dbconfig,"SELECT count(*) from".global_mysqli_reservations_table.",".global_mysqli_group_members_table." WHERE member_user_id={$result['member_user_id']} and group_id=reservation_group_id and reservation_week<=".global_week_number." and reservation_day<=".global_day_number." group by member_user_id");
+		$res=mysqli_fetch_array($check);
+		if($res['count(*)']==2)
+		{
+			$flag=1;
+			break;
+		}
+		
+	}
 	if($week == '0' && $day == '0' && $time == '0')
 	{
 		mysqli_query($dbconfig,"INSERT INTO " . global_mysqli_reservations_table . " (reservation_made_time,reservation_week,reservation_day,reservation_time,reservation_price,reservation_group_id,reservation_room_id) VALUES (now(),'$week','$day','$time','$price','{$_SESSION['selected_group']}',".count_rooms.")")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
@@ -386,6 +398,9 @@ function make_reservation($week, $day, $time,$room_id)
 	elseif($week > global_week_number + global_weeks_forward && $_SESSION['user_is_admin'] != '1')
 	{
 		return('You can only reserve ' . global_weeks_forward . ' weeks forward in time');
+	}
+	elseif($flag==1){
+		return('One or more members from your group has already made 2 reservations.');
 	}
 	else
 	{
