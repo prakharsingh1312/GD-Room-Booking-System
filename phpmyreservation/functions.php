@@ -376,7 +376,7 @@ function make_reservation($week, $day, $time,$room_id)
 	$flag=0;
 	while($result=mysqli_fetch_array($query))
 	{
-		$check=mysqli_query($dbconfig,"SELECT count(*) from".global_mysqli_reservations_table.",".global_mysqli_group_members_table." WHERE member_user_id={$result['member_user_id']} and group_id=reservation_group_id and reservation_week<=".global_week_number." and reservation_day<=".global_day_number." group by member_user_id");
+		$check=mysqli_query($dbconfig,"SELECT count(*) from ".global_mysqli_reservations_table.",".global_mysqli_group_members_table." WHERE member_user_id={$result['member_user_id']} and member_group_id=reservation_group_id and reservation_week<=".global_week_number." and reservation_day<=".global_day_number." group by member_user_id");
 		$res=mysqli_fetch_array($check);
 		if($res['count(*)']==2)
 		{
