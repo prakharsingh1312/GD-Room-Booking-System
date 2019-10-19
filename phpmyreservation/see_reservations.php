@@ -26,15 +26,15 @@ else if(isset($_GET['floor']))
 		echo list_reservations_floor($_POST['floor']);
 	}
 else{
-	echo '<div class="box_div" id="reservation_details_div2"><div class="box_top_div">Group Details</div><div class=box_body_div><br></div></div>
+	echo '<div class="box_div" id="reservation_details_div2"><div class="box_top_div" style="font-size:large;">Group Details</div><div class=box_body_div><br></div></div>
 	<br><br><div class="box_div" id="reservations_div"><div class="box_top_div"><div id="reservations_top_left_div">Level
-	<input type="button" value="All" class="blue_button floor_selector_button" id="floor_selector_button:All" name="submit">
-	<input type="button" value="00" class="blue_button floor_selector_button" id="floor_selector_button:Ground" name="submit">
-	<input type="button" value="01" class="blue_button floor_selector_button" id="floor_selector_button:First" name="submit">
-	<input type="button" value="02" class="blue_button floor_selector_button" id="floor_selector_button:Second" name="submit">
-	<input type="button" value="03" class="blue_button floor_selector_button" id="floor_selector_button:Third" name="submit">
-	<input type="button" value="04" class="blue_button floor_selector_button" id="floor_selector_button:Fourth" name="submit">
-	</div><div id="reservation_top_center_div">Upcoming<br> Reservations</div><div id="reservation_top_right_div"></div></div><div class="box_body_div">
+	<input type="button" value="All" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:All" name="submit">
+	<input type="button" value="00" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:Ground" name="submit">
+	<input type="button" value="01" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:First" name="submit">
+	<input type="button" value="02" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:Second" name="submit">
+	<input type="button" value="03" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:Third" name="submit">
+	<input type="button" value="04" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:Fourth" name="submit">
+	</div><div id="reservation_top_center_div">Upcoming Reservations</div><div id="reservation_top_right_div"></div></div><div class="box_body_div">
 	
 		<!--<select name="floor" id="floor_selector" required>
 			<option value="All">All</option>
