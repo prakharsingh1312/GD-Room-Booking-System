@@ -20,7 +20,9 @@ $dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli
 	}
 	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_groups_table . ",".global_mysqli_reservations_table.",".global_mysqli_room_details_table." WHERE group_id=reservation_group_id AND reservation_room_id=room_id ORDER BY reservation_year DESC,reservation_week DESC,reservation_time DESC,reservation_room_id,reservation_check_in DESC")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
-	$users = '<table id="users_table" border="1"><tr><th>Group ID</th><th>Group Name</th><th>Reservation Date</th><th>Room</th><th>Floor</th><th>Check In Time</th><th>Check Out Time</th><th>Student Name</th><th>Student Roll No.</th><th>Student Branch</th><th>Student Email</th><th>Student Mobile Number</th></tr>';
+	$users = '
+	<button id="button-a"> Create Excel </button>
+	<table id="users_table" border="1"><tr><th>Group ID</th><th>Group Name</th><th>Reservation Date</th><th>Room</th><th>Floor</th><th>Check In Time</th><th>Check Out Time</th><th>Student Name</th><th>Student Roll No.</th><th>Student Branch</th><th>Student Email</th><th>Student Mobile Number</th></tr>';
 
 	while($user = mysqli_fetch_array($query))
 	{
@@ -48,6 +50,7 @@ $dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli
 		</tr>
 
 		';
+	}
 	}
 $users.="</table>";
 		echo $users;
