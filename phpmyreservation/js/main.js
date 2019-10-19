@@ -1346,7 +1346,7 @@ $.post('room.php?roomdetail',{week:week,day:day,time:time}, function(data) { $('
 	
 }
 function select_floor(){
-	var array=$('.floor_selector').id.split(':');
+	var array=$('.floor_selector_button').id.split(':');
 	var floor=array[1];
 	if(floor=='All')
 		showallreservations();
