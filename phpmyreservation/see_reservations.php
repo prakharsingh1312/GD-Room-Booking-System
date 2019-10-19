@@ -26,8 +26,8 @@ else if(isset($_GET['floor']))
 		echo list_reservations_floor($_POST['floor']);
 	}
 else{
-	echo '<div class="box_div" id="reservation_details_div2"><div class="box_top_div" style="font-size:large;">Group Details</div><div class=box_body_div><br></div></div>
-	<br><br><div class="box_div" id="reservations_div"><div class="box_top_div"><div id="reservations_top_left_div">Level
+	echo '<div class="box_div" id="reservation_details_div2"><div class="box_top_div" >Group Details</div><div class=box_body_div><br></div></div>
+	<br><br><div class="box_div" id="reservations_div"><div class="box_top_div" style="font-size:large;"><div id="reservations_top_left_div">Level
 	<input type="button" value="All" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:All" name="submit">
 	<input type="button" value="00" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:Ground" name="submit">
 	<input type="button" value="01" class="blue_button floor_selector_button" style="font-size:large;" id="floor_selector_button:First" name="submit">
