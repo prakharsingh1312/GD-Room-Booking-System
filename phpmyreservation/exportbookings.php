@@ -75,7 +75,7 @@ $users.="</table>";
 		
 		";
 		?>
-		// $("#button-a").trigger('click');
+		$("#button-a").trigger('click');
 </script>
 </body>
 </html>
