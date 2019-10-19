@@ -21,15 +21,21 @@ if(check_login() != true) { exit; }
 </ul>
 
 <h3>Groups</h3>
-<b>Creating a group</b>
-<li>To create a new group, go to <a href="">home</a> and under 'Groups', type in a name for the group and press 'Create Group'. The user who creates the group, will be made the admin of the group.</li>
-
+<br>
+<li><b>Creating a group</b><br>To create a new group, go to <a href="">home</a> and under 'Groups', type in a name for the group and press 'Create Group'. The user who creates the group, will be made the admin of the group.</li>
+<br>
 <li>
-	<b>Adding new members to the group</b>
-Please note that <b>only the group admin can add new members</b>
-Under <b>Groups</b>, highlight the radio button in front of the group in which you wish to add new members, and then click <b>Group Details</b> 
+	<b>Inviting new members to the group</b><br>
+Please note that <b>only the group admin can add new members</b><br>
+Under <b>Groups</b>, highlight the radio button in front of the group in which you wish to add new members, and then click <b>Group Details</b>. Then, under Invitations/Group Details, put in the roll number and the email of the user you wish to invite to your group. Please note that the user should be registered on the room booking platform before you do this. 
 </li>
+<br>
+<li>
+	<b>Accepting Invitations</b><br>
+	Whenever a user invites you to the group, this application notifies you on your email. New invitations appear under the 'Invitations/Group Details' section. You can either accept them, or reject them. 
 
+
+</li>
 
 <h3>Account</h3>
 
