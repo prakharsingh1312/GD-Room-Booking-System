@@ -29,11 +29,11 @@ else{
 	echo '<div class="box_div" id="reservation_details_div2"><div class="box_top_div">Group Details</div><div class=box_body_div><br></div></div>
 	<br><br><div class="box_div" id="reservations_div"><div class="box_top_div"><div id="reservation_top_left_div">
 	<input type="button" value="All" class="blue_button floor_selector_button" id="floor_selector_button:All" name="submit">
-	<input type="button" value="0" class="blue_button floor_selector_button" id="floor_selector_button:0" name="submit">
-	<input type="button" value="1" class="blue_button floor_selector_button" id="floor_selector_button:1" name="submit">
-	<input type="button" value="2" class="blue_button floor_selector_button" id="floor_selector_button:2" name="submit">
-	<input type="button" value="3" class="blue_button floor_selector_button" id="floor_selector_button:3" name="submit">
-	<input type="button" value="4" class="blue_button floor_selector_button" id="floor_selector_button:4" name="submit">
+	<input type="button" value="0" class="blue_button floor_selector_button" id="floor_selector_button:Ground" name="submit">
+	<input type="button" value="1" class="blue_button floor_selector_button" id="floor_selector_button:First" name="submit">
+	<input type="button" value="2" class="blue_button floor_selector_button" id="floor_selector_button:Second" name="submit">
+	<input type="button" value="3" class="blue_button floor_selector_button" id="floor_selector_button:Third" name="submit">
+	<input type="button" value="4" class="blue_button floor_selector_button" id="floor_selector_button:Fourth" name="submit">
 	</div><div id="reservation_top_center_div">Upcoming Reservations</div><div id="reservation_top_right_div"></div></div><div class="box_body_div">
 	
 		<!--<select name="floor" id="floor_selector" required>
