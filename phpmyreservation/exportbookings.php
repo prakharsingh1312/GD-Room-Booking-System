@@ -46,9 +46,11 @@ $dbconfig=mysqli_connect(global_mysqli_server, global_mysqli_user, global_mysqli
 		<td>'.$result['user_email'].'</td>
 		<td>'.$result['user_mobile_no'].'</td>
 		</tr>
+
 		';
-
-
+	}
+$users.="</table>";
+		echo $users;
  ?>
 <script>
 	 
