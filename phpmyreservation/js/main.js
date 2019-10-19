@@ -939,7 +939,7 @@ $(document).ready( function()
 		var array = this.id.split(':');
 		change_detail(array[0],array[1],array[2]); });
 	$(document).on('click', '#reset_user_password_button', function() { reset_user_password(); });
-	$(document).on('click', '#floor_selector_button', function() { 
+	$(document).on('click', '.floor_selector_button', function() { 
 		select_floor(); });
 	$(document).on('click', '#change_user_permissions_button', function() { change_user_permissions(); });
 	$(document).on('click', '.check_availability_button', function() { 
@@ -1346,7 +1346,8 @@ $.post('room.php?roomdetail',{week:week,day:day,time:time}, function(data) { $('
 	
 }
 function select_floor(){
-	var floor=$('#floor_selector').val();
+	var array=$('.floor_selector').id.split(':');
+	var floor=array[1];
 	if(floor=='All')
 		showallreservations();
 	else
