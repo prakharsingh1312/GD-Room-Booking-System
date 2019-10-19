@@ -34,7 +34,7 @@ else{
 	<input type="button" value="02" class="blue_button floor_selector_button" id="floor_selector_button:Second" name="submit">
 	<input type="button" value="03" class="blue_button floor_selector_button" id="floor_selector_button:Third" name="submit">
 	<input type="button" value="04" class="blue_button floor_selector_button" id="floor_selector_button:Fourth" name="submit">
-	</div><div id="reservations_top_center_div">Upcoming Reservations</div><div id="reservations_top_right_div"></div></div><div class="box_body_div">
+	</div><div id="reservations_top_center_div">Upcoming<br> Reservations</div><div id="reservations_top_right_div"></div></div><div class="box_body_div">
 	
 		<!--<select name="floor" id="floor_selector" required>
 			<option value="All">All</option>
