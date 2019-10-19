@@ -246,6 +246,13 @@ div#reservation_top_left_div
 	padding-left: 15px;
 	text-align: left;
 }
+div#reservations_top_left_div
+{
+	display: table-cell;
+	width: 150px;
+	padding-left: 15px;
+	text-align: left;
+}
 div#room_details_top_left_div
 {
 	display: table-cell;
