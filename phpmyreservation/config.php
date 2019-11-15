@@ -6,7 +6,7 @@
 date_default_timezone_set('Asia/Kolkata');
 define('global_mysqli_server', 'localhost');
 define('global_mysqli_user', 'root');
-define('global_mysqli_password', '');
+define('global_mysqli_password', 'Popat#Panda@1234$');
 define('global_mysqli_database', 'phpmyreservation');
 define('global_mysqli_room_details_table','gd_rooms_facility_detail');
 // Salt for password encryption. Changing it is recommended. Use 9 random characters
