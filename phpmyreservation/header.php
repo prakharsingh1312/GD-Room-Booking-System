@@ -2,13 +2,13 @@
 
 <div id="header_inner_div"><div id="header_inner_left_div">
 
-<a href="#about">About</a>
+<a href="#about">About</a><a href="#check">Check Availability</a>
 
 <?php
 
 if(isset($_SESSION['logged_in']) && !isset($_SESSION['staff']))
 {
-	echo ' | <a href="/roombook/phpmyreservation/">Home</a> | <a href="#help">Help</a> | <a href="#room">Room Details</a>';
+	echo ' | <a href="#">Home</a> | <a href="#help">Help</a> | <a href="#room">Room Details</a>';
 }
 
 ?>
