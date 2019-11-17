@@ -6,6 +6,6 @@ include_once('main.php');
 	<table id="reservation_table"><colgroup span="1" id="reservation_time_colgroup"></colgroup><colgroup span="7" id="reservation_day_colgroup"></colgroup><tr><td id="reservation_corner_td"><input type="button" class="blue_button small_button" id="reservation_today_button" value="Today"></td>
 		<?php 
 		foreach($global_times as $time)
-			echo '<th class="reservation_day_th">'.$time.'</th>';
+			echo '<th >'.$time.'</th>';
 		?>
-		</tr></div></div></div>
+		</tr><tbo</div></div></div>
