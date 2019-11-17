@@ -17,6 +17,12 @@ function showabout()
 	div_hide('#content_div');
 	$.get('about.php', function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded('about'); });
 }
+function showavailability()
+{
+	page_load();
+	div_hide('#content_div');
+	$.get('availability.php', function(data) { $('#content_div').html(data); div_fadein('#content_div'); page_loaded('about'); });
+}
 function showgroups()
 {
 	page_load();
@@ -1036,6 +1042,10 @@ function hash()
 		else if(hash == 'new_user')
 		{
 			shownew_user();
+		}
+		else if(hash == 'check')
+		{
+			showavailability();
 		}
 		else if(hash == 'forgot_password')
 		{

@@ -2,7 +2,7 @@
 
 <div id="header_inner_div"><div id="header_inner_left_div">
 
-<a href="#about">About</a><a href="#check">Check Availability</a>
+<a href="#about">About</a> | <a href="#check">Check Availability</a>
 
 <?php
 
