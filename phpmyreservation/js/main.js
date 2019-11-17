@@ -1043,6 +1043,10 @@ function hash()
 		{
 			shownew_user();
 		}
+		else if(hash == 'login')
+		{
+			showlogin();
+		}
 		else if(hash == 'check')
 		{
 			showavailability();

@@ -37,7 +37,7 @@ if(isset($_SESSION['logged_in']))
 }
 else
 {
-	echo 'Not logged in';
+	echo '<a href="#login">Login</a>';
 }
 
 ?>
