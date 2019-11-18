@@ -1126,9 +1126,9 @@ function all_reservations(){
 }
 function show_room_availability($day,$week,$global_times){
 	global $dbconfig;
-	$query=mysqli_query($dbconfig,'SELECT * FROM '.global_mysqli_room_details_table);
+	$query1=mysqli_query($dbconfig,'SELECT * FROM '.global_mysqli_room_details_table);
 	$details='';
-	while($room=mysqli_fetch_array($query)){
+	while($room=mysqli_fetch_array($query1)){
 		$details.='<tr><th class="reservation_time_th">' . $room['room_name'] . '</th>';
 		foreach($global_times as $time)
 		{
