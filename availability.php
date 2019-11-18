@@ -7,5 +7,6 @@ include_once('main.php');
 		<?php 
 		foreach($global_times as $time)
 			echo '<th class="reservation_day_th">'.$time.'</th>';
+		echo show_room_availability();
 		?>
 		</tr></div></div>
