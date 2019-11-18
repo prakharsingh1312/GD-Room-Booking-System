@@ -1133,7 +1133,7 @@ function show_room_availability($week,$day,$global_times){
 		foreach($global_times as $time)
 		{
 			$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_reservations_table." WHERE reservation_room_id={$room['room_id']} and reservation_week=$week and reservation_day=$day and reservation_time=$time");
-			//$details.="SELECT * FROM ".global_mysqli_reservations_table." WHERE reservation_room_id={$room['room_id']} and reservation_week=$week and reservation_day=$day and reservation_time='$time'";
+			$details.="SELECT * FROM ".global_mysqli_reservations_table." WHERE reservation_room_id={$room['room_id']} and reservation_week=$week and reservation_day=$day and reservation_time='$time'";
 			if(mysqli_num_rows($query)>0)
 			{
 				$details.='<td><div class="reservation_time_div" style="background:red;color:white;pointer-events:none;border:red;"><div class="reservation_time_cell_div"><b>Occupied</b></div></div></td>';
