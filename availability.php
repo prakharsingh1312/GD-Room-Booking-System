@@ -8,6 +8,6 @@ include_once('main.php');
 		foreach($global_times as $time)
 			echo '<th class="reservation_day_th">'.$time.'</th>';
 		echo'</tr>';
-		echo show_room_availability(global_week_number,global_day_number);
+		echo show_room_availability(global_week_number,global_day_number,$global_times);
 		?>
 		</table></div></div>
