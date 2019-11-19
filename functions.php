@@ -305,7 +305,7 @@ if (PEAR::isError($mail)) {
 function list_admin_users()
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_is_admin='1' ORDER BY user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " WHERE user_is_admin='1' and user_id!=1 ORDER BY user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	if(mysqli_num_rows($query) < 1)
 	{
@@ -465,7 +465,7 @@ function delete_reservation($week, $day, $time,$id)
 function list_users()
 {
 	global $dbconfig;
-	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " ORDER BY user_is_admin DESC, user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+	$query = mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_users_table . " where user_id!=1 ORDER BY user_is_admin DESC, user_name")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 
 	$users = '<table id="users_table"><tr><th>ID</th><th>Admin</th><th>Name</th><th>Email</th><th>Reminders</th><th></th></tr>';
 
@@ -511,7 +511,7 @@ function change_user_permissions($user_id)
 	}
 }
 
-function delete_user_data($group_id, $data)
+function delete_user_data($user_id, $data)
 {
 	global $dbconfig;
 	if($user_id == $_SESSION['user_id'] && $data != 'reservations')
