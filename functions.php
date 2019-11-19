@@ -527,7 +527,14 @@ function delete_user_data($user_id, $data)
 		elseif($data == 'user')
 		{
 			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_users_table . " WHERE user_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
-			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_group_id='$group_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+			$query=mysqli_query($dbconfig,"SELECT * FROM " . global_mysqli_groups_table . " WHERE group_admin_id='$user_id'")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
+			
+			while($res=mysqli_fetch_array($query)){
+						mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_group_members_table . " WHERE member_group_id={$res['group_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');	
+						mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_reservations_table . " WHERE reservation_group_id={$res['group_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');	
+						mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_groups_table . " WHERE group_id={$res['group_id']}")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');	
+			}
+			mysqli_query($dbconfig,"DELETE FROM " . global_mysqli_members_table . " WHERE member_user_id=$user_id")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 		}
 
 		return(1);
