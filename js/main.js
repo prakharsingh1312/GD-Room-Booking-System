@@ -190,21 +190,21 @@ function showday(day, option)
 	else
 	{
 		
-		if(day < 1)
+		if(parseInt(day) < 1)
 		{
 			var week = week-1;
 			var day = 7;
 		}
-		else if(day > 7)
+		else if(parseInt(day) > 7)
 		{
 			var week = week+1;
 			var day = 1;
 		}
-		if(week < 1)
+		if(parseInt(week) < 1)
 		{
 			var week = 52;
 		}
-		else if(week > 52)
+		else if(parseInt(week) > 52)
 		{
 			var week = 1;
 		}
