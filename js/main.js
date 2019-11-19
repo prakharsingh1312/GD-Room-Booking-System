@@ -174,13 +174,13 @@ function showday(day, option)
 	{
 		
 		var day=array[1]+1;
-		var date= new Date($('.week_number_span').html().getTime()+86400000);
+		var date= $.date(Date(Date.parse($('.week_number_span').html())+86400000))
 		
 	}
 	else if(day == 'previous')
 	{
 		var day=array[1]-1;
-		var date= new Date($('.week_number_span').html().getTime()+86400000);
+		var date= $.date(new Date(Date.parse($('.week_number_span').html())-86400000))
 	}
 
 	if(isNaN(day))
@@ -1449,3 +1449,18 @@ function change_detail(param,room_id,state){
 		notify(data,4);
 	});
 }
+$.date = function(dateObject) {
+    var d = new Date(dateObject);
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    var date = day + "-" + month + "-" + year;
+
+    return date;
+};
