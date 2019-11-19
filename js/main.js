@@ -168,7 +168,7 @@ function showweek(week, option)
 }
 function showday(day, option)
 {
-	var array= $('.week_number_span').id.split(':');
+	var array= $('.week_number_span').attr("id").split(':');
 	var week=array[0];
 	if(day == 'next')
 	{
