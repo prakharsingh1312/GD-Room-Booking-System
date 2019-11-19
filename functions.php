@@ -716,6 +716,7 @@ function get_room_details($week,$day,$time){
 	global $dbconfig;
 	$query=mysqli_query($dbconfig,"SELECT * FROM ".global_mysqli_room_details_table." WHERE room_id NOT IN (SELECT room_id FROM ".global_mysqli_room_details_table.",".global_mysqli_reservations_table." WHERE room_id=reservation_room_id AND reservation_week='$week' and reservation_time='$time' and reservation_day='$day')")or die('<span class="error_span"><u>mysqli error:</u> ' . htmlspecialchars(mysqli_error($dbconfig)) . '</span>');
 	$return="<div class='box_div' id ='room_details_div'><div class='box_top_div'><div id='room_details_top_left_div'><a href='#'>Start</a> &gt; Rooms Available</div><div id='room_details_top_center_div'>Time:".$time."</div><div id='room_details_top_right_div'>Date ".date("d-M-Y",strtotime(global_year."-W".$week."-".$day))."</div></div><div class='box_body_div'><p>Group: ".group_selected_name()."</p>";
+	$return="<div class='box_div' id ='room_details_div'><div class='box_top_div'><div id='room_details_top_left_div'><a href='#'>Start</a> &gt; Rooms Available</div><div id='room_details_top_center_div'>Time:".$time."</div><div id='room_details_top_right_div'>Date ".date("d-M-Y",strtotime(global_year."-W".$week."-".$day))."</div></div><div class='box_body_div'><p>Group: ".group_selected_name()."</p>";
 	$i=0;
 	while($room=mysqli_fetch_array($query))
 	{

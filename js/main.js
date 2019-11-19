@@ -166,6 +166,72 @@ function showweek(week, option)
 		});
 	}
 }
+function showday(day, option)
+{
+	var array= $('.week_number_span').id.split(':');
+	var week=array[0];
+	if(day == 'next')
+	{
+		
+		var day=array[1]+1;
+		var date= new Date($('.week_number_span').html().getTime()+86400000);
+		
+	}
+	else if(day == 'previous')
+	{
+		var day=array[1]-1;
+		var date= new Date($('.week_number_span').html().getTime()+86400000);
+	}
+
+	if(isNaN(day))
+	{
+		notify('Invalid week number', 4);
+	}
+	else
+	{
+		
+		if(day < 1)
+		{
+			var week = week-1;
+			var day = 7;
+		}
+		else if(day > 7)
+		{
+			var week = week+1;
+			var day = 1;
+		}
+		if(week < 1)
+		{
+			var week = 52;
+		}
+		else if(week > 52)
+		{
+			var week = 1;
+		}
+
+		page_load('week');
+		div_hide('#availability_div');
+
+		$.post('availability.php?day',{day:day,week:week}, function(data)
+		{
+			$('#availability_div').html(data);
+			$('.week_number_span').id=week+':'+day;
+			$('.week_number_span').html(date);
+			div_fadein('#availability_div');
+			page_loaded('week');
+
+			//if(week != global_week_number)
+			//{
+			//	$('#reservation_today_button').css('visibility', 'visible');
+			//}
+
+			//if(option == 'today')
+			//{
+				//setTimeout(function() { $('#today_span').animate({ opacity: 0 }, 250, function() { $('#today_span').animate({ opacity: 1 }, 250);  }); }, 500);
+			//}
+		});
+	}
+}
 
 function showcp()
 {
@@ -985,6 +1051,8 @@ $(document).ready( function()
 	$(document).on('click mouseover', '#user_secret_code_a', function() { div_fadein('#user_secret_code_div'); return false; });
 	$(document).on('click', '#previous_week_a', function() { showweek('previous'); return false; });
 	$(document).on('click', '#next_week_a', function() { showweek('next'); return false; });
+	$(document).on('click', '#previous_day_a', function() { showday('previous'); return false; });
+	$(document).on('click', '#next_day_a', function() { showday('next'); return false; });
 
 	// Divisions
 	$(document).on('mouseout', '.reservation_time_cell_div', function() { read_reservation_details(); });
