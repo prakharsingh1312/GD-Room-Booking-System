@@ -215,7 +215,7 @@ function showday(day, option)
 		$.post('availability.php?day',{day:day,week:week}, function(data)
 		{
 			$('#availability_div').html(data);
-			$('.week_number_span').id=week+':'+day;
+			$('.week_number_span').attr("id",week+':'+day);
 			$('.week_number_span').html(date);
 			div_fadein('#availability_div');
 			page_loaded('week');
