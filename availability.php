@@ -2,8 +2,8 @@
 include_once('main.php');
 if(isset($_GET['day']))
 {
-	$day=mysqli_real_escape_string($_POST['day']);
-	$week=mysqli_real_escape_string($_POST['week']);
+	$day=mysqli_real_escape_string($dbconfig,$_POST['day']);
+	$week=mysqli_real_escape_string($dbconfig,$_POST['week']);
 	echo'<table id="reservation_table"><colgroup span="1" id="reservation_time_colgroup"></colgroup><colgroup span="7" id="reservation_day_colgroup"></colgroup><tr><td id="reservation_corner_td"><input type="button" class="blue_button small_button" id="reservation_today_button" value="Today"></td>';
 		
 		foreach($global_times as $time)
