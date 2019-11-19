@@ -169,17 +169,17 @@ function showweek(week, option)
 function showday(day, option)
 {
 	var array= $('.week_number_span').attr("id").split(':');
-	var week= array[0];
+	var week= parseInt(array[0]);
 	if(day == 'next')
 	{
 		
-		var day=array[1]+1;
+		var day=parseInt(array[1])+1;
 		var date= $.date(Date(Date.parse($('.week_number_span').html())+86400000))
 		
 	}
 	else if(day == 'previous')
 	{
-		var day=array[1]-1;
+		var day=parseInt(array[1])-1;
 		var date= $.date(new Date(Date.parse($('.week_number_span').html())-86400000))
 	}
 
